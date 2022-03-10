@@ -27,7 +27,7 @@ class Person(models.Model):
         abstract = True
 
     def save(self, *args, **kwargs):
-        r = int(str(self.national_id)[-1]) % 2
+        r = int(str(self.national_id)[-2]) % 2
         if (r == 0) and (self.gender == "M"):
             raise ValidationError('You Entered Fake National ID')
         if (r == 1) and (self.gender == "F"):
