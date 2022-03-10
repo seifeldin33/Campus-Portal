@@ -23,7 +23,7 @@ class Person(models.Model):
     birth_place = models.CharField(max_length=100)
     zip_code = models.CharField(null=True, max_length=5)
     picture = models.ImageField(null=True)
-    admitted_in = models.DateField(auto_created=True)
+    admitted_in = models.DateField(auto_now_add=True)
 
     class Meta:
         abstract = True
