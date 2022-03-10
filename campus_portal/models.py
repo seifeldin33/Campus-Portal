@@ -9,7 +9,7 @@ class Person(models.Model):
     MALE, FEMALE = 'M', 'F'
     TEMP_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
     gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=MALE)
-    email = models.CharField(max_length=255)
+    email = models.EmailField()
     phone_number = models.CharField(max_length=15)
     address = models.CharField(max_length=100)
     national_id = models.IntegerField(max_length=14)
@@ -20,7 +20,7 @@ class Person(models.Model):
     mother_tongue = models.CharField(max_length=20)
     birth_place = models.CharField(max_length=100)
     zip_code = models.CharField(null=True, max_length=5)
-    picture = models.ImageField(null=True)
+    picture = models.ImageField(null=True, upload_to="uploads/students_picture/")
     admitted_in = models.DateField(auto_now_add=True)
 
     class Meta:
