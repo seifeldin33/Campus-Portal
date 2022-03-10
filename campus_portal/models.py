@@ -7,10 +7,7 @@ class Person(models.Model):
     name = models.CharField(max_length=100)
     birthdate = models.DateField()
     MALE, FEMALE = 'M', 'F'
-    TEMP_CHOICES = (
-        (MALE, 'Male'),
-        (FEMALE, 'Female')
-    )
+    TEMP_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
     gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=MALE)
     email = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
@@ -28,6 +25,15 @@ class Person(models.Model):
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        r = int(str(self.national_id)[-1]) % 2
+        if (r == 0) and (self.gender == "M"):
+            raise ValidationError('You Entered Fake National ID')
+        if (r == 1) and (self.gender == "F"):
+            raise ValidationError('You Entered Fake National ID')
+        self.full_clean()
+        super(Person, self).save(*args, **kwargs)
 
 
 class Student(Person):
