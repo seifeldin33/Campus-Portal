@@ -50,6 +50,9 @@ class Student(Person):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ["-Student_ID", "name"]
+
 
 class Employee(Person):
     employee_ID = models.IntegerField(primary_key=True, unique=True)
@@ -63,6 +66,9 @@ class Employee(Person):
 class Doctor(Employee):
     degree = models.CharField(max_length=10)
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Course(models.Model):
     code = models.CharField(primary_key=True, max_length=10)
@@ -73,3 +79,6 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["-name"]
