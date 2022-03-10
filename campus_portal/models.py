@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 # Create your models here.
@@ -37,7 +38,14 @@ class Student(Person):
     concentration = models.CharField(max_length=10)
     level = models.IntegerField(default=1)
     cohort = models.IntegerField()
-    gpa = models.DecimalField(max_digits=4, decimal_places=2)
+
+    def validate_gpa(gpa):
+        if gpa > 4:
+            raise ValidationError(r"No one's GPA is greater than 4")
+        elif gpa < 0:
+            raise ValidationError(r"No one's GPA is smaller than 0")
+
+    gpa = models.DecimalField(max_digits=4, decimal_places=2, validators=[validate_gpa])
     percent = models.DecimalField(max_digits=4, decimal_places=2)
     admission_status = models.CharField(max_length=10)
     academic_status = models.CharField(max_length=10)
@@ -50,8 +58,9 @@ class Student(Person):
     def __str__(self):
         return self.name
 
-    class Meta:
-        ordering = ["-Student_ID", "name"]
+
+class Meta:
+    ordering = ["-Student_ID", "name"]
 
 
 class Employee(Person):
