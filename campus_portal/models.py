@@ -1,29 +1,29 @@
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 
 
 # Create your models here.
-class Person(models.Model):
-    name = models.CharField(max_length=100)
-    birthdate = models.DateField()
+class User(AbstractUser):
+    is_student = models.BooleanField('student status', default=False)
+    is_doctor = models.BooleanField('teacher status', default=False)
+    birthdate = models.DateField(null=True)
     MALE, FEMALE = 'M', 'F'
     TEMP_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
     gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=MALE)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=15, default="01000000000")
     picture = models.ImageField(null=True, upload_to="uploads/students_picture/")
-    admitted_in = models.DateField(auto_now_add=True)
 
-    class Meta:
-        abstract = True
+    def __str__(self):
+        # return self.username.strip()
+        string_name = (self.first_name + " " + self.last_name).strip()
+        if string_name == "":
+            string_name = self.username.strip()
+        return string_name
 
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super(Person, self).save(*args, **kwargs)
 
-
-class Student(Person):
-    Student_ID = models.IntegerField(primary_key=True, unique=True)
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     school = models.CharField(max_length=10)
     major = models.CharField(max_length=10)
     concentration = models.CharField(max_length=10)
@@ -42,38 +42,32 @@ class Student(Person):
     number_of_subjects = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return (self.user.first_name + " " + self.user.last_name).strip()
+
+    class Meta:
+        ordering = ["user"]
 
 
-class Meta:
-    ordering = ["-Student_ID", "name"]
-
-
-class Employee(Person):
-    employee_ID = models.IntegerField(primary_key=True, unique=True)
-    department = models.CharField(max_length=10)
-    salary = models.FloatField()
-
-    def __str__(self):
-        return self.name
-
-
-class Doctor(Employee):
+class Doctor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     degree = models.CharField(max_length=10)
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["user"]
+
+    def __str__(self):
+        return ("Dr. " + self.user.first_name + " " + self.user.last_name).strip()
 
 
 class Course(models.Model):
     code = models.CharField(primary_key=True, max_length=10)
     name = models.CharField(max_length=40)
     credit_hour = models.IntegerField()
-    prerequistes = models.CharField(null=True, max_length=10)
+    prerequisite = models.CharField(null=True, max_length=10)
     type = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.name
+        return self.name.strip()
 
     class Meta:
         ordering = ["-name"]
