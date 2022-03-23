@@ -24,7 +24,6 @@ SECRET_KEY = 'django-insecure-dpc8bl^ht*u^(=%1yb^3uaczsqo+w@2#pw!@=+)+8-*s__+o2!
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -125,3 +124,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom Django auth settings
+
+AUTH_USER_MODEL = 'campus_portal.User'
