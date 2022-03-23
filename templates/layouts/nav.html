@@ -1,35 +1,67 @@
+<style>
+
+    /* ============ desktop view ============ */
+    @media all and (min-width: 992px) {
+        .navbar .nav-item .dropdown-menu {
+            display: none;
+        }
+
+        .navbar .nav-item:hover .nav-link {
+        }
+
+        .navbar .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .navbar .nav-item .dropdown-menu {
+            margin-top: 0;
+        }
+    }
+
+    /* ============ desktop view .end// ============ */
+
+</style>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">mds</a>
+        <a class="navbar-brand" href="#"><i class='fa-solid fa-building-columns' style='color:#ffdf00'></i> SCS</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04"
                 aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarsExample04">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="#"><i class='fas fa-home'
+                                                                               style='color:#ffdf00'></i> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="#"><i class='fa-solid fa-circle-info' style='color:#ffdf00'></i> About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
+                    <a class="nav-link" href="#"><i class='fa fa-comment' style='color:#ffdf00'></i> Contacts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class='fas fa-user-graduate' style='color:#ffdf00'></i> Colleges</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class='fa fa-user-circle' style='color:#ffdf00'></i> Visitors</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-bs-toggle="dropdown"
-                        aria-expanded="false">Dropdown</a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdown04">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class='fa fa-lock' style='color:#ffdf00'></i> Login</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">As a Doctor</a></li>
+                        <li><a class="dropdown-item" href="#">As a Student</a></li>
                     </ul>
                 </li>
             </ul>
-            <form>
-                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            </form>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class='fa fa-sign-out' style='color:#ffdf00'></i> Sign Out</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
