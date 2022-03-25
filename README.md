@@ -1,5 +1,13 @@
 # Campus-Portal
 
+```
+                 ____   ____ ____   
+                / ___| / ___/ ___|  
+                \___ \| |   \___ \  
+                 ___) | |___ ___) | 
+                |____/ \____|____/  
+```
+
 ### To Run the project
 
 + Download the project
