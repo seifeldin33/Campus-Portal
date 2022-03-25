@@ -39,3 +39,9 @@ python manage.py runserver
 ```
 
 + In your browser, go to http://localhost:8000.
+
+# our Model
+
+![model_1](./images/models-1.png)
+
+![model_2](./images/models-2.png)
