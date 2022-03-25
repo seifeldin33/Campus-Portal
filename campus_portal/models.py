@@ -7,7 +7,7 @@ from django.db import models
 class User(AbstractUser):
     is_student = models.BooleanField('student status', default=False)
     is_doctor = models.BooleanField('teacher status', default=False)
-    birthdate = models.DateField(null=True)
+    birthdate = models.DateField(blank=True, null=True)
     MALE, FEMALE = 'M', 'F'
     TEMP_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
     gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=MALE)

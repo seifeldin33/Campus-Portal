@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <!-- Bootstrap core CSS -->
+    {% include "required_library.html" %}
+</head>
+<body>
+{% include "layouts/nav.html" %}
+<div class="container">
+    <div>
+        <br>
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col-md-5">
+                <div class="register-box">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header text-center">
+                            <a href=".." class="h1 text-decoration-none">SCS</a>
+                        </div>
+                        <div class="card-body">
+                            <p class="login-box-msg">Register a new Account</p>
+
+                            <form action="{% url "student_signup" %}" method="post" id="form">
+                                {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">First and last name</span>
+                                        <input type="text" aria-label="First name" class="form-control" id="first_name"
+                                                name="first_name" autocomplete="given-name" placeholder="First Name">
+                                        <input type="text" aria-label="Last name" class="form-control" id="last_name"
+                                                name="last_name" autocomplete="family-name" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Gender</span>
+                                        <select class="form-select form-select-md"
+                                                aria-label=".form-select-lg example" autocomplete="sex">
+                                            <option value="M" selected>Male</option>
+                                            <option value="F">Female</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Username</span>
+                                        <input type="text" class="form-control" placeholder="Username" id="username"
+                                                name="username" autocomplete="username">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Email</span>
+                                        <input type="email" class="form-control" placeholder="Email" id="email"
+                                                name="email" autocomplete="email">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-envelope"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Password</span>
+                                    <input type="password" class="form-control" placeholder="Password" id="password"
+                                            name="password" autocomplete="new-password">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Retype Password</span>
+                                    <input type="password" class="form-control" placeholder="Retype Password"
+                                            id="retyped_password" name="retyped_password" autocomplete="new-password">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Phone Number</span>
+                                    <input type="tel" class="form-control" id="phone_number" name="phone_number"
+                                           autocomplete="tel" placeholder="Phone Number">
+                                    <div class="input-group-text">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Birthdate</span>
+                                    <input type="text" name="birthdate" class="vDateField" size="10" id="birthdate"
+                                           placeholder="Birthdate" autocomplete="bday">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-calendar"></span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">School</span>
+                                        <select class="form-select form-select-md"
+                                                aria-label=".form-select-lg example" id="school" name="school"
+                                                form="form">
+                                            <option value="CS" selected>CS</option>
+                                            <option value="ENG">ENG</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Major</span>
+                                        <select class="form-select form-select-md"
+                                                aria-label=".form-select-lg example" id="major" name="major"
+                                                form="form">
+                                            <option value="CS" selected>GCS</option>
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Concentration</span>
+                                        <select class="form-select form-select-md"
+                                                aria-label=".form-select-lg example" id="concentration" name="concentration"
+                                                form="form">
+                                            <option value="DS" selected>Data Science</option>
+                                            <option value="Cloud">Cloud</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="icheck-primary">
+                                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                                            <label for="agreeTerms">
+                                                I agree to the <a href="#">terms</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-primary btn-block" value="Sign up">
+                                            Register
+                                        </button>
+                                    </div>
+                                    <div class="col"></div>
+                                </div>
+                            </form>
+                            <a href="Login" class="text-center">I already have an Account</a>
+                        </div>
+                        <!-- /.form-box -->
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+
+</body>
+</html>
