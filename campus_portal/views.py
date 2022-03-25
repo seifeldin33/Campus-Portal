@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
-from django.views.decorators.http import require_POST, require_http_methods
+from django.views.decorators.http import require_http_methods
 from campus_portal.models import User, Student, Doctor
 from django.utils.translation import gettext_lazy as _
 import datetime
@@ -39,17 +39,30 @@ def get(request):
     return render(request, 'index.html', context)
 
 
-def Login(request):
-    context = {'title': 'N'}
+@require_http_methods(["GET", "POST"])
+@anonymous_required
+def login(request):
+    context = {'title': 'Login'}
+    if request.method == "POST":
+        u = auth.authenticate(username=request.POST['email'], password=request.POST['password'])
+        if u is not None:
+            auth.login(request, u)
+            return redirect('home')
+        else:
+            u = auth.authenticate(email=request.POST['email'], password=request.POST['password'])
+            if u is not None:
+                auth.login(request, u)
+                return redirect('home')
+            context['errors'] = "'Username/Email or password is incorrect!"
     return render(request, 'Login.html', context)
 
 
-def create_new_user(request):
+def create_new_user(request, is_student=False, is_doctor=False):
     new_user = User(first_name=request.POST['first_name'], last_name=request.POST['last_name'],
                     username=request.POST['username'], email=request.POST['email'],
                     password=make_password(request.POST['password']), phone_number=request.POST['phone_number'],
-                    birthdate=datetime.datetime.strptime(request.POST['birthdate'], "%d-%b-%Y").
-                    strftime("%Y-%m-%d"))
+                    birthdate=datetime.datetime.strptime(request.POST['birthdate'], "%d-%b-%Y").strftime("%Y-%m-%d"),
+                    is_student=is_student, is_doctor=is_doctor)
     new_user.save()
     return new_user
 
@@ -65,19 +78,24 @@ def student_signup(request):
             if request.POST['terms'] == 'agree':
                 try:
                     User.objects.get(username=request.POST['username'])
-                    context['error'] = 'Username is already taken!'
+                    context['errors'] = 'Username is already taken!'
                 except User.DoesNotExist:
-                    new_user = create_new_user(request)
-                    new_student = Student(user=new_user, school=request.POST['school'], major=request.POST['major'],
-                                          concentration=request.POST['concentration'], level=1,
-                                          cohort=datetime.date.today().year, gpa=0.0, percent=0.0, total_credit_hours=0,
-                                          number_of_subjects=0)
-                    new_student.save()
-                    return redirect('Login')
+                    try:
+                        User.objects.get(username=request.POST['email'])
+                        context['errors'] = 'Email is already taken!'
+                    except User.DoesNotExist:
+                        new_user = create_new_user(request, is_student=True, is_doctor=False)
+                        new_student = Student(user=new_user, school=request.POST['school'], major=request.POST['major'],
+                                              concentration=request.POST['concentration'], level=1,
+                                              cohort=datetime.date.today().year, gpa=0.0, percent=0.0,
+                                              total_credit_hours=0, number_of_subjects=0)
+                        new_student.save()
+                        return redirect('Login')
             else:
+                context['errors'] = 'You must agree to the terms'
                 return render(request, 'Student/signup.html', context)
         else:
-            context['error'] = 'Password does not match!'
+            context['errors'] = 'Password does not match!'
 
     return render(request, 'Student/signup.html', context)
 
@@ -91,56 +109,28 @@ def doctor_signup(request):
             if request.POST['terms'] == 'agree':
                 try:
                     User.objects.get(username=request.POST['username'])
-                    context['error'] = 'Username is already taken!'
+                    context['errors'] = 'Username is already taken!'
                 except User.DoesNotExist:
-                    new_user = create_new_user(request)
-                    new_doctor = Doctor(user=new_user, degree=request.POST['degree'])
-                    new_doctor.save()
-                    return redirect('Login')
+                    try:
+                        User.objects.get(username=request.POST['email'])
+                        context['errors'] = 'Email is already taken!'
+                    except User.DoesNotExist:
+                        new_user = create_new_user(request, is_student=False, is_doctor=True)
+                        new_doctor = Doctor(user=new_user, degree=request.POST['degree'])
+                        new_doctor.save()
+                        return redirect('Login')
             else:
+                context['errors'] = 'You must agree to the terms'
                 return render(request, 'Doctor/signup.html', context)
         else:
-            context['error'] = 'Password does not match!'
+            context['errors'] = 'Password does not match!'
         print(request.POST)
         print(request.POST['first_name'])
         # new_user.
     return render(request, 'Doctor/signup.html', context)
 
 
-#
-# def signup(request):
-#     if request.method == "POST":
-#         pass
-#     if request.POST['password1'] == request.POST['password2']:
-#         try:
-#             User.objects.get(username=request.POST['username'])
-#             return render(request, 'accounts/signup.html', {'error': 'Username is already taken!'})
-#         except User.DoesNotExist:
-#             user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
-#             auth.login(request, user)
-#             return redirect('home')
-#     else:
-#         return render(request, 'accounts/signup.html', {'error': 'Password does not match!'})
-# else:
-#     return render(request, 'accounts/signup.html')
-
-
-def login(request):
-    if request.method == 'POST':
-        pass
-    #     user = auth.authenticate(username=request.POST['username'], password=request.POST['password'])
-    #     if user is not None:
-    #         auth.login(request, user)
-    #         return redirect('home')
-    #     else:
-    #         return render(request, 'accounts/login.html', {'error': 'Username or password is incorrect!'})
-    # else:
-    #     return render(request, 'accounts/login.html')
-
-
 @login_required
 def logout(request):
-    pass
-    # if request.method == 'POST':
-    #     auth.logout(request)
-    # return redirect('home')
+    auth.logout(request)
+    return redirect('home')

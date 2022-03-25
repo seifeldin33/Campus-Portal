@@ -49,8 +49,14 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class='fa fa-sign-out' style='color:#ffdf00'></i> Sign
-                                Out</a>
+                            <div id="user-tools">
+                                <a class="nav-link disabled" style='color:#ffdf00' href="#">Welcome,
+                                    <strong>{{ user.get_username }}</strong></a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "Logout" %}"><i class='fa fa-sign-out'
+                                                                             style='color:#ffdf00'></i> Log Out</a>
                         </li>
                     {% else %}
                         <li class="nav-item dropdown">

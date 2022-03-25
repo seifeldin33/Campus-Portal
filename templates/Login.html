@@ -6,8 +6,47 @@
     <!-- Bootstrap core CSS -->
     {% include "required_library.html" %}
 </head>
-<body>
+<body class="text-center">
 {% include "layouts/nav.html" %}
-<p>cxvvvvvv</p>
+{{ errors }}
+<main class="form-signin">
+    <div class="row">
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+    <form class="row align-items-center" method="post">
+        {% csrf_token %}
+        <div class="col"></div>
+        <div class="col card">
+            <br>
+            <div class="card-title ">
+                {#        <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">#}
+                <h1 class="mb-3">Please sign in</h1>
+            </div>
+            <div class="card-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="email" placeholder="name@example.com" name="email">
+                    <label for="email">Email address or Username</label>
+                </div>
+                <div class="form-floating" mb-3>
+                    <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+                    <label for="password">Password</label>
+                </div>
+                <br>
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me" name="remember_me" id="remember_me"> <b>Remember me</b>
+                    </label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="col"></div>
+    </form>
+</main>
 </body>
 </html>
