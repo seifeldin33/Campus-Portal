@@ -40,6 +40,8 @@ python manage.py runserver
 
 + In your browser, go to http://localhost:8000.
 
+# if You want to visit a live Version, GO to this [Link](http://noureldin.pythonanywhere.com/campus_portal/) 
+
 # our Model
 
 ![model_1](./images/models-1.png)
