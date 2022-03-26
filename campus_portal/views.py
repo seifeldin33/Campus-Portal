@@ -35,7 +35,6 @@ def index(request):
 
 def get(request):
     context = {'title': 'N'}
-    print(request.path)
     return render(request, 'index.html', context)
 
 
@@ -73,7 +72,6 @@ def create_new_user(request, is_student=False, is_doctor=False):
 def student_signup(request):
     context = {'title': 'Signup'}
     if request.method == "POST":
-        print(request.POST)
         if request.POST['password'] == request.POST['retyped_password']:
             if request.POST['terms'] == 'agree':
                 try:
@@ -124,8 +122,6 @@ def doctor_signup(request):
                 return render(request, 'Doctor/signup.html', context)
         else:
             context['errors'] = 'Password does not match!'
-        print(request.POST)
-        print(request.POST['first_name'])
         # new_user.
     return render(request, 'Doctor/signup.html', context)
 
