@@ -57,11 +57,14 @@ def login(request):
 
 
 def create_new_user(request, is_student=False, is_doctor=False):
+    try:
+        date = datetime.datetime.strptime(request.POST['birthdate'], "%Y-%m-%d").strftime("%Y-%m-%d")
+    except ValueError:
+        date = datetime.datetime.strptime(request.POST['birthdate'], "%d-%b-%Y").strftime("%Y-%m-%d")
     new_user = User(first_name=request.POST['first_name'], last_name=request.POST['last_name'],
                     username=request.POST['username'], email=request.POST['email'],
                     password=make_password(request.POST['password']), phone_number=request.POST['phone_number'],
-                    birthdate=datetime.datetime.strptime(request.POST['birthdate'], "%d-%b-%Y").strftime("%Y-%m-%d"),
-                    is_student=is_student, is_doctor=is_doctor)
+                    birthdate=date, is_student=is_student, is_doctor=is_doctor)
     new_user.save()
     return new_user
 
