@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+from socket import gethostbyname, gethostname
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dpc8bl^ht*u^(=%1yb^3uaczsqo+w@2#pw!@=+)+8-*s__+o2!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+local_ip = gethostbyname(gethostname())
 DEBUG = True
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', local_ip]
 
 # Application definition
 

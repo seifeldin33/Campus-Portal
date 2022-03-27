@@ -40,6 +40,14 @@ python manage.py runserver
 
 + In your browser, go to http://localhost:8000.
 
+### or 
+
+```shell
+python manage.py runserver 0.0.0.0:8000
+```
+
++ In your browser, go to http://192.168.x.x:8000 replace x.x with your local ip
+
 # if You want to visit a live Version, GO to this [Link](https://noureldin.pythonanywhere.com/campus_portal/) 
 
 # our Model
