@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     is_student = models.BooleanField('student status', default=False)
     is_doctor = models.BooleanField('teacher status', default=False)
-    email = models.EmailField(_('Email Address'), unique=True, default='')
+    email = models.EmailField(_('Email Address'), unique=True, default='', blank=True)
     birthdate = models.DateField(blank=True, null=True)
     MALE, FEMALE = 'M', 'F'
     TEMP_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
