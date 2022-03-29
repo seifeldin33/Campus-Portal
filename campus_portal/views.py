@@ -48,7 +48,8 @@ def login(request):
             auth.login(request, u)
             return redirect('home')
         else:
-            u = auth.authenticate(email=request.POST['email'], password=request.POST['password'])
+            username = User.objects.get(email=request.POST['email']).username
+            u = auth.authenticate(username=username, password=request.POST['password'])
             if u is not None:
                 auth.login(request, u)
                 return redirect('home')
