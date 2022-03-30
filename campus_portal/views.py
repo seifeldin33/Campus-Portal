@@ -147,7 +147,7 @@ def view_user_info(request, user_name):
         if request.user.is_doctor:
             doctor = Doctor.objects.get(user=request.user.id)
             context["doctor"] = {'degree': doctor.degree}
-        return render(request, 'Student/../templates/view_info.html', context)
+        return render(request, 'view_info.html', context)
     else:
         context['errors'] = "You Can't Show another user info"
         return render(request, 'index.html', context)
