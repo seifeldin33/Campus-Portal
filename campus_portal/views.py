@@ -33,15 +33,18 @@ def index(request):
     return HttpResponse(F"Hello, world. You're {request.user}")
 
 
+context = {'title': 'SCS'}
+
+
 def get(request):
-    context = {'title': 'N'}
+    context['title'] = 'SCS - Home'
     return render(request, 'index.html', context)
 
 
 @require_http_methods(["GET", "POST"])
 @anonymous_required
 def login(request):
-    context = {'title': 'Login'}
+    context['title'] = 'SCS - Login'
     if request.method == "POST":
         u = auth.authenticate(username=request.POST['email'], password=request.POST['password'])
         if u is not None:
@@ -74,7 +77,7 @@ def create_new_user(request, is_student=False, is_doctor=False):
 @require_http_methods(["GET", "POST"])
 @anonymous_required
 def student_signup(request):
-    context = {'title': 'Signup'}
+    context['title'] = 'SCS - Signup'
     if request.method == "POST":
         if request.POST['password'] == request.POST['retyped_password']:
             if request.POST['terms'] == 'agree':
@@ -105,7 +108,7 @@ def student_signup(request):
 @require_http_methods(["GET", "POST"])
 @anonymous_required
 def doctor_signup(request):
-    context = {'title': 'Signup'}
+    context['title'] = 'SCS - Doctor Signup'
     if request.method == "POST":
         if request.POST['password'] == request.POST['retyped_password']:
             if request.POST['terms'] == 'agree':
@@ -128,6 +131,26 @@ def doctor_signup(request):
             context['errors'] = 'Password does not match!'
         # new_user.
     return render(request, 'Doctor/signup.html', context)
+
+
+@login_required
+def view_user_info(request, user_name):
+    if user_name == request.user.username:
+        if request.user.is_student:
+            student = Student.objects.get(user=request.user.id)
+            context["student"] = {'school': student.school, 'major': student.major,
+                                  'concentration': student.concentration, 'level': student.level,
+                                  'cohort': student.cohort, 'gpa': student.gpa, 'percent': student.percent,
+                                  'total_credit_hours': student.total_credit_hours,
+                                  'number_of_subjects': student.number_of_subjects,
+                                  }
+        if request.user.is_doctor:
+            doctor = Doctor.objects.get(user=request.user.id)
+            context["doctor"] = {'degree': doctor.degree}
+        return render(request, 'Student/../templates/view_info.html', context)
+    else:
+        context['errors'] = "You Can't Show another user info"
+        return render(request, 'index.html', context)
 
 
 @login_required

@@ -50,8 +50,8 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <div id="user-tools">
-                                <a class="nav-link disabled" style='color:#ffdf00' href="#">Welcome,
-                                    <strong>{{ user.get_username }}</strong></a>
+                                <a class="nav-link" style='color:#ffdf00' href="{% url "user_info" user.get_username %}"
+                                   target="">Welcome, <strong>{{ user.get_username }}</strong></a>
                             </div>
                         </li>
                         <li class="nav-item">

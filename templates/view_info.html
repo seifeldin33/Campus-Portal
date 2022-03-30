@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <!-- Bootstrap core CSS -->
+    {% include "required_library.html" %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+{% include "layouts/nav.html" %}
+<h3>{{ user.email }}</h3>
+<h5>{{ user.date_joined }}</h5>
+<h5>{{ user.get_username }}</h5>
+<h5>{{ user.first_name }}</h5>
+<h5>{{ user.last_name }}</h5>
+<h5>{{ user.is_student }}</h5>
+<h5>{{ user.is_doctor }}</h5>
+<h5>{{ user.birthdate }}</h5>
+<h5>{{ user.gender }}</h5>
+<h5>{{ user.phone_number }}</h5>
+
+<h5>{{ student.school }}</h5>
+<h5>{{ student.major }}</h5>
+<h5>{{ student.concentration }}</h5>
+<h5>{{ student.level }}</h5>
+<h5>{{ student.cohort }}</h5>
+<h5>{{ student.gpa }}</h5>
+<h5>{{ student.percent }}</h5>
+<h5>{{ student.total_credit_hours }}</h5>
+<h5>{{ student.number_of_subjects }}</h5>
+
+<h5>{{ doctor.degree }}</h5>
+
+
+{% include "layouts/footer.html" %}
+</body>
+</html>
