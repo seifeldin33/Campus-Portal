@@ -50,9 +50,9 @@ def login(request):
         else:
             try:
                 username = User.objects.get(email=request.POST['email']).username
-                u = auth.authenticate(username=username, password=request.POST['password'])
             except User.DoesNotExist:
-                context['error'] = "Username/Email or password is incorrect!"
+                username = None
+            u = auth.authenticate(username=username, password=request.POST['password'])
             if u is not None:
                 auth.login(request, u)
                 return redirect('home')
