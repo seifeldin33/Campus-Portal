@@ -33,30 +33,30 @@ def index(request):
     return HttpResponse(F"Hello, world. You're {request.user}")
 
 
-context = {'title': 'SCS'}
-
-
 def get(request):
-    context['title'] = 'SCS - Home'
+    context = {'title': 'SCS - Home'}
     return render(request, 'index.html', context)
 
 
 @require_http_methods(["GET", "POST"])
 @anonymous_required
 def login(request):
-    context['title'] = 'SCS - Login'
+    context = {'title': 'SCS - Login'}
     if request.method == "POST":
         u = auth.authenticate(username=request.POST['email'], password=request.POST['password'])
         if u is not None:
             auth.login(request, u)
             return redirect('home')
         else:
-            username = User.objects.get(email=request.POST['email']).username
-            u = auth.authenticate(username=username, password=request.POST['password'])
+            try:
+                username = User.objects.get(email=request.POST['email']).username
+                u = auth.authenticate(username=username, password=request.POST['password'])
+            except User.DoesNotExist:
+                context['error'] = "Username/Email or password is incorrect!"
             if u is not None:
                 auth.login(request, u)
                 return redirect('home')
-            context['errors'] = "'Username/Email or password is incorrect!"
+            context['error'] = "Username/Email or password is incorrect!"
     return render(request, 'Login.html', context)
 
 
@@ -77,17 +77,17 @@ def create_new_user(request, is_student=False, is_doctor=False):
 @require_http_methods(["GET", "POST"])
 @anonymous_required
 def student_signup(request):
-    context['title'] = 'SCS - Signup'
+    context = {'title': 'SCS - Signup'}
     if request.method == "POST":
         if request.POST['password'] == request.POST['retyped_password']:
             if request.POST['terms'] == 'agree':
                 try:
                     User.objects.get(username=request.POST['username'])
-                    context['errors'] = 'Username is already taken!'
+                    context['error'] = 'Username is already taken!'
                 except User.DoesNotExist:
                     try:
                         User.objects.get(username=request.POST['email'])
-                        context['errors'] = 'Email is already taken!'
+                        context['error'] = 'Email is already taken!'
                     except User.DoesNotExist:
                         new_user = create_new_user(request, is_student=True, is_doctor=False)
                         new_student = Student(user=new_user, school=request.POST['school'], major=request.POST['major'],
@@ -97,10 +97,10 @@ def student_signup(request):
                         new_student.save()
                         return redirect('Login')
             else:
-                context['errors'] = 'You must agree to the terms'
+                context['error'] = 'You must agree to the terms'
                 return render(request, 'Student/signup.html', context)
         else:
-            context['errors'] = 'Password does not match!'
+            context['error'] = 'Password does not match!'
 
     return render(request, 'Student/signup.html', context)
 
@@ -108,33 +108,34 @@ def student_signup(request):
 @require_http_methods(["GET", "POST"])
 @anonymous_required
 def doctor_signup(request):
-    context['title'] = 'SCS - Doctor Signup'
+    context = {'title': 'SCS - Doctor Signup'}
     if request.method == "POST":
         if request.POST['password'] == request.POST['retyped_password']:
             if request.POST['terms'] == 'agree':
                 try:
                     User.objects.get(username=request.POST['username'])
-                    context['errors'] = 'Username is already taken!'
+                    context['error'] = 'Username is already taken!'
                 except User.DoesNotExist:
                     try:
                         User.objects.get(username=request.POST['email'])
-                        context['errors'] = 'Email is already taken!'
+                        context['error'] = 'Email is already taken!'
                     except User.DoesNotExist:
                         new_user = create_new_user(request, is_student=False, is_doctor=True)
                         new_doctor = Doctor(user=new_user, degree=request.POST['degree'])
                         new_doctor.save()
                         return redirect('Login')
             else:
-                context['errors'] = 'You must agree to the terms'
+                context['error'] = 'You must agree to the terms'
                 return render(request, 'Doctor/signup.html', context)
         else:
-            context['errors'] = 'Password does not match!'
+            context['error'] = 'Password does not match!'
         # new_user.
     return render(request, 'Doctor/signup.html', context)
 
 
 @login_required
 def view_user_info(request, user_name):
+    context = {'title': 'SCS - information'}
     if user_name == request.user.username:
         if request.user.is_student:
             student = Student.objects.get(user=request.user.id)
@@ -149,7 +150,7 @@ def view_user_info(request, user_name):
             context["doctor"] = {'degree': doctor.degree}
         return render(request, 'view_info.html', context)
     else:
-        context['errors'] = "You Can't Show another user info"
+        context['error'] = "You Can't Show another user info"
         return render(request, 'index.html', context)
 
 

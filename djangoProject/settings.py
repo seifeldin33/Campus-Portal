@@ -129,3 +129,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'campus_portal.User'
 LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'Login'
