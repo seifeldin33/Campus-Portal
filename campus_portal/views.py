@@ -80,7 +80,7 @@ def student_signup(request):
     context = {'title': 'SCS - Signup'}
     if request.method == "POST":
         if request.POST['password'] == request.POST['retyped_password']:
-            if request.POST['terms'] == 'agree':
+            if request.POST.get('terms', False) == 'agree':
                 try:
                     User.objects.get(username=request.POST['username'])
                     context['error'] = 'Username is already taken!'
@@ -111,7 +111,7 @@ def doctor_signup(request):
     context = {'title': 'SCS - Doctor Signup'}
     if request.method == "POST":
         if request.POST['password'] == request.POST['retyped_password']:
-            if request.POST['terms'] == 'agree':
+            if request.POST.get('terms', False) == 'agree':
                 try:
                     User.objects.get(username=request.POST['username'])
                     context['error'] = 'Username is already taken!'
