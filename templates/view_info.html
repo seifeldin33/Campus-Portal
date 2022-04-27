@@ -5,33 +5,43 @@
     <title>{{ title }}</title>
     <!-- Bootstrap core CSS -->
     {% include "required_library.html" %}
+    <style>
+        h3, h5 {
+            margin-inline-start: 10px;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 {% include "layouts/nav.html" %}
-<h3>{{ user.email }}</h3>
-<h5>{{ user.date_joined }}</h5>
-<h5>{{ user.get_username }}</h5>
-<h5>{{ user.first_name }}</h5>
-<h5>{{ user.last_name }}</h5>
-<h5>{{ user.is_student }}</h5>
-<h5>{{ user.is_doctor }}</h5>
-<h5>{{ user.birthdate }}</h5>
-<h5>{{ user.gender }}</h5>
-<h5>{{ user.phone_number }}</h5>
-
-<h5>{{ student.school }}</h5>
-<h5>{{ student.major }}</h5>
-<h5>{{ student.concentration }}</h5>
-<h5>{{ student.level }}</h5>
-<h5>{{ student.cohort }}</h5>
-<h5>{{ student.gpa }}</h5>
-<h5>{{ student.percent }}</h5>
-<h5>{{ student.total_credit_hours }}</h5>
-<h5>{{ student.number_of_subjects }}</h5>
-
-<h5>{{ doctor.degree }}</h5>
-
-
+<div class="col-md-8 mx-auto" style="margin: 2pc;">
+    <div class="card h-100">
+        {% load static %}
+        <h3>Your Image: </h3><img class="rounded-circle" src="{% static "campus_portal/media/defaults/avatar.png" %}"
+                                  alt="home" style="width: 5pc; height: 5pc"/>
+        <h5>Username: {{ user.get_username }}</h5>
+        <h5>First Name: {{ user.first_name }}</h5>
+        <h5>Last Name: {{ user.last_name }}</h5>
+        <h5>Email: {{ user.email }}</h5>
+        <h5>Gender: {% if user.gender == "M" %}Male{% else %}Female{% endif %}</h5>
+        <h5>Birthdate: {{ user.birthdate }}</h5>
+        <h5>Phone Number: {{ user.phone_number }}</h5>
+        <h5>Date Joined: {{ user.date_joined }}</h5>
+        {% if user.is_student %}
+            <h5>School: {{ student.school }}</h5>
+            <h5>Major: {{ student.major }}</h5>
+            <h5>Concentration: {{ student.concentration }}</h5>
+            <h5>Level: {{ student.level }}</h5>
+            <h5>Cohort: {{ student.cohort }}</h5>
+            <h5>Gpa: {{ student.gpa }}</h5>
+            <h5>Percent: {{ student.percent }}</h5>
+            <h5>Total Credit Hours: {{ student.total_credit_hours }}</h5>
+            <h5>Number of Subjects: {{ student.number_of_subjects }}</h5>
+        {% endif %}
+        {% if user.is_doctor %}
+            <h5>Degree: {{ doctor.degree }}</h5>
+        {% endif %}
+    </div>
+</div>
 {% include "layouts/footer.html" %}
 </body>
 </html>
