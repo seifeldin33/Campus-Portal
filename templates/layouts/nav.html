@@ -1,6 +1,4 @@
 <style>
-
-    /* ============ desktop view ============ */
     @media all and (min-width: 992px) {
         .navbar .nav-item .dropdown-menu {
             display: none;
@@ -17,9 +15,6 @@
             margin-top: 0;
         }
     }
-
-    /* ============ desktop view .end// ============ */
-
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Fourth navbar example">
     <div class="container-fluid">
@@ -48,15 +43,27 @@
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <div id="user-tools">
-                            <a class="nav-link" style='color:#ffdf00' href="{% url "user_info" user.get_username %}"
-                               target="">Welcome, <strong>{{ user.get_username }}</strong></a>
-                        </div>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-bs-toggle="dropdown">
+                            {% load static %}
+                            <img class="rounded-circle" src="{% static "campus_portal/media/defaults/avatar.png" %}"
+                                 alt="home" style="width: 2pc; height: 2pc"/>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="text-center"><strong>{{ user.get_username }}</strong>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item text-center" href="{% url "user_info" user.get_username %}"
+                                   target=""><i class='fa fa-user' style='color:black'></i>
+                                <strong>Profile</strong></a></li>
+                            <li class="nav-link">
+                                <a class="dropdown-item text-center" href="{% url "Logout" %}">
+                                    <i class='fa fa-sign-out' style='color:red'></i> <strong>Log Out</strong></a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "Logout" %}"><i class='fa fa-sign-out'
-                                                                         style='color:#ffdf00'></i> Log Out</a>
+                    <li>
+                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                     </li>
                 {% else %}
                     <li class="nav-item dropdown">
