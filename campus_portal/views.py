@@ -158,3 +158,12 @@ def view_user_info(request, user_name):
 def logout(request):
     auth.logout(request)
     return redirect('home')
+
+
+@login_required
+def create_course(request):
+    context = {'title': 'SCS - Create Course'}
+    if request.user.is_doctor:
+        return render(request, 'create_course.html', context)
+    else:
+        redirect('home')

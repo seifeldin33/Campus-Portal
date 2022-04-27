@@ -40,6 +40,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class='fas fa-user-graduate' style='color:#ffdf00'></i> Colleges</a>
                 </li>
+                {% if user.is_doctor %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-bs-toggle="dropdown">
+                            <i class='fas fa-book-open' style='color:#ffdf00'></i> Courses
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url "create_course" %}">
+                                <i class="fa-solid fa-plus" style="color: green"></i> Create Course</a>
+                        </ul>
+                    </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
