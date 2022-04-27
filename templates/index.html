@@ -11,7 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     {% include "required_library.html" %}
-    <script>//made by vipul mirajkar thevipulm.appspot.com
+    <script>
     var TxtType = function (el, toRotate, period) {
         this.toRotate = toRotate;
         this.el = el;
@@ -124,6 +124,7 @@
         <span class="carousel-control-next-icon"></span>
     </a>
 </div>
+{% comment %}{% load static %} <img src="{% static "campus_portal/media/defaults/avatar.png" %}" alt="home" />{% endcomment %}
 {% include "layouts/footer.html" %}
 </body>
 </html>

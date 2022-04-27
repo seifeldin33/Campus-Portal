@@ -42,7 +42,7 @@
 #     school = models.CharField(max_length=10)
 #     major = models.CharField(max_length=10)
 #     concentration = models.CharField(max_length=10)
-#     level = models.IntegerField(default=1)
+#     level = models.IntegerField(defaults=1)
 #     cohort = models.IntegerField()
 #
 #     def validate_gpa(gpa):
@@ -109,7 +109,7 @@ class Person(models.Model):
     birthdate = models.DateField()
     MALE, FEMALE = 'M', 'F'
     TEMP_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
-    gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=MALE)
+    gender = models.CharField(max_length=1, choices=TEMP_CHOICES, defaults=MALE)
     email = models.EmailField()
     phone_number = models.CharField(max_length=15)
     picture = models.ImageField(null=True, upload_to="uploads/students_picture/")
@@ -128,7 +128,7 @@ class Student(Person):
     school = models.CharField(max_length=10)
     major = models.CharField(max_length=10)
     concentration = models.CharField(max_length=10)
-    level = models.IntegerField(default=1)
+    level = models.IntegerField(defaults=1)
     cohort = models.IntegerField()
 
     def validate_gpa(gpa):

@@ -14,7 +14,8 @@ class User(AbstractUser):
     TEMP_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
     gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=MALE)
     phone_number = models.CharField(max_length=15, default="01000000000")
-    picture = models.ImageField(null=True, upload_to="uploads/students_picture/")
+    picture = models.ImageField(default="campus_portal/media/defaults/avatar.png", null=True,
+                                upload_to="campus_portal/media/students_picture/")
 
     def __str__(self):
         # return self.username.strip()

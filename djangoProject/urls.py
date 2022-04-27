@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from campus_portal import views
 
 urlpatterns = [
@@ -23,3 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('campus_portal/', include('campus_portal.urls')),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
