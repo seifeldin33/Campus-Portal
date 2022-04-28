@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
-from campus_portal.models import User, Student, Doctor
+from campus_portal.models import User, Student, Doctor, Course
 from django.utils.translation import gettext_lazy as _
 import datetime
 from django.contrib.auth.hashers import make_password
@@ -164,6 +164,12 @@ def logout(request):
 def create_course(request):
     context = {'title': 'SCS - Create Course'}
     if request.user.is_doctor:
+        if request.method == "POST":
+            new_course = Course(code=request.POST['code'], name=request.POST['name'],
+                                credit_hour=request.POST['credit_hour'], prerequisite=request.POST['prerequisite'],
+                                type=request.POST['type'])
+            new_course.save()
+            context["success"] = F"Course {new_course.name} Created Successfully"
         return render(request, 'create_course.html', context)
     else:
         redirect('home')
