@@ -12,7 +12,7 @@
 
 + Download the project
 + Make Sure you have python3 installed
-+ download Django using ``` pip install Django``` in CMD
++ download requirements using ``` pip install -r requirements.txt``` in CMD
 + move to the Directory
 + Run the following Commands to Run the Django migrations to set up your models and assets
 
