@@ -170,6 +170,13 @@ def create_course(request):
                                 type=request.POST['type'])
             new_course.save()
             context["success"] = F"Course {new_course.name} Created Successfully"
-        return render(request, 'create_course.html', context)
+        return render(request, 'Course/create_course.html', context)
     else:
         redirect('home')
+
+
+def view_courses(request):
+    context = {'title': 'SCS - Courses'}
+    all_courses = Course.objects.all().order_by('name')
+    context["courses"] = all_courses
+    return render(request, 'Course/view_courses.html', context)

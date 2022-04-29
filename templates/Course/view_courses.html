@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    {% include "required_library.html" %}
+    <style>
+        .table-responsive {
+            height: 400px;
+            overflow: scroll;
+        }
+
+        thead tr:nth-child(1) th {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+{% include "layouts/nav.html" %}
+{% include "layouts/success.html" %}
+{% include "layouts/error.html" %}
+{% load custom_tags %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-center">We have {% courses_number %} Courses</h2>
+    </div>
+    <div class="card-body table-responsive  p-0" style="height: 550px;">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Credit Hour</th>
+                <th>Pre-Requisite</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course.code }}</td>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.credit_hour }}</td>
+                    <td>{{ course.prerequisite }}</td>
+                    <td>{{ course.type }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% include "layouts/footer.html" %}
+</body>
+</html>
