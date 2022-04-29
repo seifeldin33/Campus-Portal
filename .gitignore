@@ -174,4 +174,5 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/django
 /campus_portal/migrations/
+/campus_portal/static/campus_portal/media/students_picture/
 !/campus_portal/migrations/__init__.py
