@@ -63,7 +63,7 @@ class Doctor(models.Model):
 
 
 class Course(models.Model):
-    code = models.CharField(primary_key=True, max_length=10)
+    code = models.CharField(max_length=10)
     name = models.CharField(max_length=40)
     credit_hour = models.IntegerField()
     prerequisite = models.CharField(null=True, max_length=10)

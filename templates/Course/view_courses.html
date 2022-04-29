@@ -27,30 +27,33 @@
     <div class="card-header">
         <h2 class="text-center">We have {% courses_number %} Courses</h2>
     </div>
-    <div class="card-body table-responsive  p-0" style="height: 550px;">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Credit Hour</th>
-                <th>Pre-Requisite</th>
-                <th>Type</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for course in courses %}
+    {% courses_number as courses_number %}
+    {% if courses_number %}
+        <div class="card-body table-responsive  p-0" style="height: 550px;">
+            <table class="table table-hover">
+                <thead>
                 <tr>
-                    <td>{{ course.code }}</td>
-                    <td>{{ course.name }}</td>
-                    <td>{{ course.credit_hour }}</td>
-                    <td>{{ course.prerequisite }}</td>
-                    <td>{{ course.type }}</td>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Credit Hour</th>
+                    <th>Pre-Requisite</th>
+                    <th>Type</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ course.code }}</td>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.credit_hour }}</td>
+                        <td>{{ course.prerequisite }}</td>
+                        <td>{{ course.type }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 </div>
 
 
