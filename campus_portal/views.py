@@ -172,7 +172,7 @@ def create_course(request):
             context["success"] = F"Course {new_course.name} Created Successfully"
         return render(request, 'Course/create_course.html', context)
     else:
-        redirect('home')
+        return redirect('home')
 
 
 def view_courses(request):
@@ -182,6 +182,7 @@ def view_courses(request):
     return render(request, 'Course/view_courses.html', context)
 
 
+@login_required
 def edit_user_info(request, user_name):
     context = {'title': 'SCS - Edit User Info'}
     if request.method == "GET":
@@ -250,3 +251,41 @@ def edit_user_info(request, user_name):
             context["success"] = "your Info has been updated successfully"
 
     return render(request, 'edit_info.html', context)
+
+
+@login_required
+def be_student(request, user_name):
+    if user_name == request.user.username:
+        user = User.objects.get(id=request.user.id)
+        user.is_student = True
+        user.save()
+        new_student = Student(user=user, school='', major='',
+                              concentration='', level=1,
+                              cohort=datetime.date.today().year, gpa=0.0, percent=0.0,
+                              total_credit_hours=0, number_of_subjects=0)
+        new_student.save()
+        return redirect('user_info', user.get_username())
+    return redirect('home')
+
+
+@login_required
+def be_doctor(request, user_name):
+    if user_name == request.user.username:
+        user = User.objects.get(id=request.user.id)
+        user.is_doctor = True
+        user.save()
+        new_doctor = Doctor(user=user, degree='')
+        new_doctor.save()
+        return redirect('user_info', user.get_username())
+    return redirect('home')
+
+
+@login_required
+def be_admin(request, user_name):
+    if user_name == request.user.username:
+        user = User.objects.get(id=request.user.id)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+        return redirect('user_info', user.get_username())
+    return redirect('home')

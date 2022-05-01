@@ -46,6 +46,27 @@
     <a class="btn btn-primary" href="{% url "edit_user_info" user.get_username %}">
         <i class="fa-solid fa-user-pen"></i> Edit</a>
 </div>
+{% if not user.is_student %}
+    <br>
+    <div class="text-center">
+        <a class="btn btn-primary" href="{% url "be_student" user.get_username %}">
+        <i class="fa-solid fa-user-graduate"></i> Be Student</a>
+    </div>
+{% endif %}
+{% if not user.is_doctor %}
+    <br>
+    <div class="text-center">
+        <a class="btn btn-primary" href="{% url "be_doctor" user.get_username %}">
+        <i class="fa-solid fa-user-tie"></i> Be Doctor</a>
+    </div>
+{% endif %}
+{% if not user.is_superuser and not user.is_staff %}
+    <br>
+    <div class="text-center">
+        <a class="btn btn-primary" href="{% url "be_admin" user.get_username %}">
+        <i class="fa-solid fa-user-secret"></i> Be Admin</a>
+    </div>
+{% endif %}
 <br>
 {% include "layouts/footer.html" %}
 </body>
