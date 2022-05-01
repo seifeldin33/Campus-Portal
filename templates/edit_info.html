@@ -19,8 +19,8 @@
                   id="form">
                 {% csrf_token %}
                 <h4>Your Image: </h4>
-                <img class="rounded-circle" src="{{ user.picture.url }}"
-                     alt="home" style="width: 5pc; height: 5pc"/>
+                <div class="text-center"><img class="rounded-circle" src="{{ user.picture.url }}"
+                                              alt="home" style="width: 5pc; height: 5pc"/></div>
                 <input type="file" name="picture" accept="image/*" value="{{ user.picture }}">
                 <div class="input-group mb-3">
                     <div class="input-group">
