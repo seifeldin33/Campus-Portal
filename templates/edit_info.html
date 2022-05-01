@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    {% include "required_library.html" %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+{% include "layouts/nav.html" %}
+{% include "layouts/success.html" %}
+{% include "layouts/error.html" %}
+<div class="col-md-8 mx-auto" style="margin: 2pc;">
+    <div class="card h-100">
+        <div class="card-header bg-info">
+            <h3 class="text-center">Your Info</h3>
+        </div>
+        <div class="card-body">
+            <form action="{% url "edit_user_info" user.get_username %}" method="post" enctype="multipart/form-data"
+                  id="form">
+                {% csrf_token %}
+                <h4>Your Image: </h4>
+                <img class="rounded-circle" src="{{ user.picture.url }}"
+                     alt="home" style="width: 5pc; height: 5pc"/>
+                <input type="file" name="picture" accept="image/*" value="{{ user.picture }}">
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">First and last name</span>
+                        <input type="text" aria-label="First name" class="form-control" id="first_name"
+                               name="first_name" autocomplete="given-name" placeholder="First Name"
+                               value="{{ user.first_name }}" required>
+                        <input type="text" aria-label="Last name" class="form-control" id="last_name"
+                               name="last_name" autocomplete="family-name" placeholder="Last Name"
+                               value="{{ user.last_name }}" required>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Gender</span>
+                        <select class="form-select form-select-md" id="gender" name="gender"
+                                aria-label=".form-select-lg example" autocomplete="sex">
+                            {% if user.gender == "M" %}
+                                <option value="M" selected>Male</option>
+                                <option value="F">Female</option>
+                            {% elif user.gender == "F" %}
+                                <option value="M">Male</option>
+                                <option value="F" selected>Female</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Username</span>
+                        <input type="text" class="form-control" placeholder="Username" id="username"
+                               name="username" autocomplete="username" required value="{{ user.get_username }}">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Email</span>
+                        <input type="email" class="form-control" placeholder="Email" id="email"
+                               name="email" autocomplete="email" required value="{{ user.email }}">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">New Password</span>
+                    <input type="password" class="form-control" placeholder="Password" id="password"
+                           name="password" autocomplete="new-password">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Retype New Password</span>
+                    <input type="password" class="form-control" placeholder="Retype Password"
+                           id="retyped_password" name="retyped_password" autocomplete="new-password">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Phone Number</span>
+                    <input type="tel" class="form-control" id="phone_number" name="phone_number"
+                           autocomplete="tel" placeholder="Phone Number" required value="{{ user.phone_number }}">
+                    <div class="input-group-text">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Birthdate</span>
+                    <input type="date" name="birthdate" class="vDateField" size="10" id="birthdate"
+                           placeholder="Birthdate" autocomplete="bday">
+                    <div class="input-group-text">
+                        <span class="fas fa-calendar"></span>
+                    </div>
+                    <div class="input-group-text bg-info">
+                        Value: {{ user.birthdate }}
+                    </div>
+                </div>
+                {% if user.is_student %}
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">School</span>
+                            <select class="form-select form-select-md"
+                                    aria-label=".form-select-lg example" id="school" name="school"
+                                    form="form">
+                                <option value="Sciences and Engineering"
+                                        {% if student.school == "Sciences and Engineering" %}selected{% endif %}>
+                                    Sciences and Engineering
+                                </option>
+                                <option value="Global Affairs and Public Policy"
+                                        {% if student.school == "Global Affairs and Public Policy" %}selected{% endif %}>
+                                    Global Affairs and Public Policy
+                                </option>
+                                <option value="Business" {% if student.school == "Business" %}selected{% endif %}>
+                                    Business
+                                </option>
+                                <option value="Humanities and Social Sciences"
+                                        {% if student.school == "Humanities and Social Sciences" %}selected{% endif %}>
+                                    Humanities and Social Sciences
+                                </option>
+                                <option value="Continuing Education"
+                                        {% if student.school == "Continuing Education" %}selected{% endif %}>
+                                    Continuing Education
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">Major</span>
+                            <select class="form-select form-select-md"
+                                    aria-label=".form-select-lg example" id="major" name="major"
+                                    form="form">
+                                <option value="Data Science - BSc"
+                                        {% if student.major == "Data Science - BSc" %}selected{% endif %}>
+                                    Data Science - BSc
+                                </option>
+                                <option value="Computer Science - BSc"
+                                        {% if student.major == "Computer Science - BSc" %}selected{% endif %}>
+                                    Computer Science - BSc
+                                </option>
+                                <option value="Computer Engineering - BSc"
+                                        {% if student.major == "Computer Engineering - BSc" %}selected{% endif %}>
+                                    Computer Engineering - BSc
+                                </option>
+                                <option value="Electronics and Communications Engineering - BSc"
+                                        {% if student.major == "Electronics and Communications Engineering - BSc" %}selected{% endif %}>
+                                    Electronics and Communications Engineering - BSc
+                                </option>
+                                <option value="Mechanical Engineering - BSc"
+                                        {% if student.major == "Mechanical Engineering - BSc" %}selected{% endif %}>
+                                    Mechanical Engineering - BSc
+                                </option>
+                                <option value="Construction Engineering - BSc"
+                                        {% if student.major == "Construction Engineering - BSc" %}selected{% endif %}>
+                                    Construction Engineering - BSc
+                                </option>
+                                <option value="Actuarial Science - BSc"
+                                        {% if student.major == "Actuarial Science - BSc" %}selected{% endif %}>
+                                    Actuarial Science - BSc
+                                </option>
+                                <option value="Architectural Engineering - BSc"
+                                        {% if student.major == "Architectural Engineering - BSc" %}selected{% endif %}>
+                                    Architectural Engineering - BSc
+                                </option>
+                                <option value="Petroleum Engineering - BSc"
+                                        {% if student.major == "Petroleum Engineering - BSc" %}selected{% endif %}>
+                                    Petroleum Engineering - BSc
+                                </option>
+                                <option value="Physics - BS"
+                                        {% if student.major == "Physics - BS" %}selected{% endif %}>Physics - BS
+                                </option>
+                                <option value="Mathematics - BSc"
+                                        {% if student.major == "Mathematics - BSc" %}selected{% endif %}>
+                                    Mathematics - BSc
+                                </option>
+                                <option value="Biology - BSc"
+                                        {% if student.major == "Biology - BSc" %}selected{% endif %}>Biology - BSc
+                                </option>
+                                <option value="Chemistry - BSc"
+                                        {% if student.major == "Chemistry - BSc" %}selected{% endif %}>Chemistry - BSc
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">Concentration</span>
+                            <select class="form-select form-select-md"
+                                    aria-label=".form-select-lg example" id="concentration"
+                                    name="concentration"
+                                    form="form">
+                                <option value="Data Science"
+                                        {% if student.concentration == "Data Science" %}selected{% endif %}>Data Science
+                                </option>
+                                <option value="Mobile and Cloud Computing"
+                                        {% if student.concentration == "Mobile and Cloud Computing" %}selected{% endif %}>
+                                    Mobile and Cloud Computing
+                                </option>
+                                <option value="Games Development"
+                                        {% if student.concentration == "Games Development" %}selected{% endif %}>
+                                    Games Development
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if user.is_doctor %}
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">Degree</span>
+                            <input type="text" class="form-control" placeholder="Degree" id="degree"
+                                   name="degree" required value="{{ doctor.degree }}">
+                            <div class="input-group-text">
+                                <span class="fas fa-graduation-cap"></span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="text-center">
+                    <button class="btn btn-warning text-center" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% include "layouts/footer.html" %}
+</body>
+</html>

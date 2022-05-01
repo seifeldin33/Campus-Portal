@@ -180,3 +180,73 @@ def view_courses(request):
     all_courses = Course.objects.all().order_by('name')
     context["courses"] = all_courses
     return render(request, 'Course/view_courses.html', context)
+
+
+def edit_user_info(request, user_name):
+    context = {'title': 'SCS - Edit User Info'}
+    if request.method == "GET":
+        if user_name == request.user.username:
+            if request.user.is_student:
+                student = Student.objects.get(user=request.user.id)
+                context["student"] = {'school': student.school, 'major': student.major,
+                                      'concentration': student.concentration,
+                                      }
+            if request.user.is_doctor:
+                doctor = Doctor.objects.get(user=request.user.id)
+                context["doctor"] = {'degree': doctor.degree}
+    elif request.method == "POST":
+        if user_name == request.user.username:
+            user = User.objects.get(id=request.user.id)
+
+            if request.POST.get("picture", True):
+                user.picture = request.FILES['picture']
+
+            user.first_name = request.POST["first_name"]
+            user.last_name = request.POST["last_name"]
+            user.gender = request.POST["gender"]
+
+            # check if new username exist
+            if request.POST["username"] != user.get_username():
+                try:
+                    User.objects.get(username=request.POST['username'])
+                    context['error'] = 'Username is already taken!'
+                    return render(request, 'edit_info.html', context)
+                except User.DoesNotExist:
+                    user.username = request.POST["username"]
+
+            # check if new email exist
+            if request.POST["email"] != user.email:
+                try:
+                    User.objects.get(email=request.POST['email'])
+                    context['error'] = 'Email is already taken!'
+                    return render(request, 'edit_info.html', context)
+                except User.DoesNotExist:
+                    user.email = request.POST["email"]
+
+            if request.POST["password"] != "" and request.POST["password"] == request.POST["retyped_password"]:
+                user.password = make_password(request.POST['password'])
+            user.phone_number = request.POST["phone_number"]
+
+            if request.POST["birthdate"] != "":
+                try:
+                    date = datetime.datetime.strptime(request.POST['birthdate'], "%Y-%m-%d").strftime("%Y-%m-%d")
+                except ValueError:
+                    date = datetime.datetime.strptime(request.POST['birthdate'], "%d-%b-%Y").strftime("%Y-%m-%d")
+                user.birthdate = date
+
+            user.save()  # save changes after updates
+            if user.is_student:
+                student = Student.objects.get(user=user.id)
+                student.school = request.POST["school"]
+                student.major = request.POST["major"]
+                student.concentration = request.POST["concentration"]
+                student.save()  # save changes after updates
+
+            if user.is_doctor:
+                doctor = Doctor.objects.get(user=user.id)
+                doctor.degree = request.POST["degree"]
+                doctor.save()  # save changes after updates
+
+            context["success"] = "your Info has been updated successfully"
+
+    return render(request, 'edit_info.html', context)

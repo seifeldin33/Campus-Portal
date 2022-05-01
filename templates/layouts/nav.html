@@ -62,9 +62,8 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-bs-toggle="dropdown">
-                            {% load static %}
-                            <img class="rounded-circle" src="{% static "campus_portal/media/defaults/avatar.png" %}"
-                                 alt="home" style="width: 2pc; height: 2pc"/>
+                            <img class="rounded-circle" src="{{ user.picture.url }}" alt="home"
+                                 style="width: 2pc; height: 2pc"/>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="text-center"><strong>{{ user.get_username }}</strong>

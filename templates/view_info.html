@@ -15,8 +15,7 @@
 {% include "layouts/nav.html" %}
 <div class="col-md-8 mx-auto" style="margin: 2pc;">
     <div class="card h-100">
-        {% load static %}
-        <h3>Your Image: </h3><img class="rounded-circle" src="{% static "campus_portal/media/defaults/avatar.png" %}"
+        <h3>Your Image: </h3><img class="rounded-circle" src="{{ user.picture.url }}"
                                   alt="home" style="width: 5pc; height: 5pc"/>
         <h5>Username: {{ user.get_username }}</h5>
         <h5>First Name: {{ user.first_name }}</h5>
@@ -42,6 +41,11 @@
         {% endif %}
     </div>
 </div>
+<div class="text-center">
+    <a class="btn btn-primary" href="{% url "edit_user_info" user.get_username %}">
+        <i class="fa-solid fa-user-pen"></i> Edit</a>
+</div>
+<br>
 {% include "layouts/footer.html" %}
 </body>
 </html>
