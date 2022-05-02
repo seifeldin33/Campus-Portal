@@ -74,3 +74,12 @@ class Course(models.Model):
 
     class Meta:
         ordering = ["-name"]
+
+
+class StudentRegisterCourse(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ["course"]
+        unique_together = ('course', 'student')
