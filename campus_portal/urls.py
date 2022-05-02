@@ -4,8 +4,7 @@ from . import views
 
 # if the link =  campus_portal/user/nour  user: url endpoint, nour: URL parameter
 urlpatterns = [
-    path('', views.get, name='home'),
-    path('', views.index, name='index'),
+    path('', views.index, name='home'),
     path('Login', views.login, name='Login'),
     path('Logout', views.logout, name='Logout'),
     path('student_signup', views.student_signup, name='student_signup'),
@@ -17,4 +16,5 @@ urlpatterns = [
     path('user/<str:user_name>/be_student', views.be_student, name='be_student'),
     path('user/<str:user_name>/be_doctor', views.be_doctor, name='be_doctor'),
     path('user/<str:user_name>/be_admin', views.be_admin, name='be_admin'),
+    path('visualization', views.visualization, name='visualization'),
 ]

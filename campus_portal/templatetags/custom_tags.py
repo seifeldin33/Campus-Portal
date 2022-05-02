@@ -1,6 +1,8 @@
 from django import template
-from ..models import Course, Student, Doctor
+from ..models import Course, Student, Doctor, User
+from django.db.models import Count
 from django.urls import reverse
+
 register = template.Library()
 
 
@@ -33,3 +35,20 @@ def students_number():
 @register.simple_tag
 def doctors_number():
     return Doctor.objects.count()
+
+
+@register.simple_tag
+def users_number():
+    return User.objects.count()
+
+
+@register.simple_tag
+def number_user_per_gender():
+    result = (User.objects.values('gender').annotate(count=Count('gender')).order_by())
+    return result[::-1]
+
+
+@register.simple_tag
+def number_student_per_school():
+    result = (Student.objects.values('school').annotate(count=Count('school')).order_by())
+    return result[::-1]

@@ -30,10 +30,6 @@ def anonymous_required(function=None, redirect_url=None):
 
 
 def index(request):
-    return HttpResponse(F"Hello, world. You're {request.user}")
-
-
-def get(request):
     context = {'title': 'SCS - Home'}
     return render(request, 'index.html', context)
 
@@ -288,4 +284,12 @@ def be_admin(request, user_name):
         user.is_staff = True
         user.save()
         return redirect('user_info', user.get_username())
+    return redirect('home')
+
+
+@login_required
+def visualization(request):
+    context = {'title': 'SCS - Visualization'}
+    if request.user.is_superuser:
+        return render(request, 'visualization.html', context)
     return redirect('home')

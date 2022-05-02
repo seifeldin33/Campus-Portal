@@ -21,7 +21,7 @@ from django.contrib.staticfiles.urls import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', views.get, name='home'),
+    path('', views.index, name='home'),
     path('admin/', admin.site.urls),
     path('campus_portal/', include('campus_portal.urls')),
 ]

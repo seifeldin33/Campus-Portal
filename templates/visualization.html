@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <!-- Bootstrap core CSS -->
+    {% include "required_library.html" %}
+
+
+</head>
+<body class="d-flex flex-column min-vh-100 bg-dark">
+{% include "layouts/nav.html" %}
+{% include "layouts/success.html" %}
+{% include "layouts/error.html" %}
+{% load custom_tags %}
+{% number_user_per_gender as result %}
+<script>
+    // jquery function
+    $(document).ready(function () {
+        let ctx = document.getElementById('GenderPieChart').getContext('2d');
+        let myChart = new Chart(ctx, {
+            type: 'pie',
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: 'cyan',
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Pie Chart: Number of Users per Gender',
+                        color: 'cyan',
+                    }
+                }
+            },
+            data: {
+                labels: [{% for gender in result %}
+                    {% if gender.gender == "M"%}"Male",
+                        {% elif gender.gender == "F"%}"Female",
+                    {% endif %}
+                {% endfor %}], //loop through queryset
+                datasets: [{
+                    label: '# of users per gender',
+                    data: [{% for gender in result %}{{ gender.count }}, {% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 0, 0, 0.62)',
+                        'rgba(0, 0, 255, 0.62)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 0, 0, 1)',
+                        'rgba(0, 0, 255, 1)',
+                    ],
+                    borderWidth: 2
+                }]
+            },
+        });
+    });
+</script>
+<script>
+    // jquery function
+    $(document).ready(function () {
+        let ctx = document.getElementById('RolePieChart').getContext('2d');
+        let myChart = new Chart(ctx, {
+            type: 'pie',
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: 'cyan',
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Pie Chart: Number of Users per Role',
+                        color: 'cyan',
+                    }
+                }
+            },
+            data: {
+                labels: ["Doctor", "Student"],
+                datasets: [{
+                    label: '# of users per role',
+                    data: [{% doctors_number %}, {% students_number %}],
+                    backgroundColor: [
+                        'rgba(255, 0, 0, 0.62)',
+                        'rgba(0, 0, 255, 0.62)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 0, 0, 1)',
+                        'rgba(0, 0, 255, 1)',
+                    ],
+                    borderWidth: 2
+                }]
+            },
+        });
+    });
+</script>
+{% number_student_per_school as result %}
+<script>
+    // jquery function
+    $(document).ready(function () {
+        let ctx = document.getElementById('SchoolPieChart').getContext('2d');
+        let myChart = new Chart(ctx, {
+            type: 'doughnut',
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: 'cyan',
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Pie Chart: Number of Students per School',
+                        color: 'cyan',
+                    }
+                }
+            },
+            data: {
+                labels: [{% for school in result %}
+                    {% if school.school != ""%}
+                        "{{ school.school }}",
+                    {% endif %}
+                {% endfor %}], //loop through queryset
+                datasets: [{
+                    label: '# of users per role',
+                    data: [{% for school in result %}
+                        {% if school.school != ""%}
+                            "{{ school.count }}",
+                        {% endif %}
+                    {% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 0, 0, 0.62)',
+                        'rgba(0, 255, 255, 0.62)',
+                        'rgba(255, 255, 0, 0.62)',
+                        'rgba(0, 255, 0, 0.62)',
+                        'rgba(0, 0, 255, 0.62)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 0, 0, 1)',
+                        'rgba(0, 255, 255, 1)',
+                        'rgba(255, 255, 0, 1)',
+                        'rgba(0, 255, 0, 1)',
+                        'rgba(0, 0, 255, 1)',
+                    ],
+                    borderWidth: 2
+                }]
+            },
+        });
+    });
+</script>
+
+<!-- displaying the chart -->
+<!-- you can also play around with the width and height to increase or decrease the chart size -->
+<h4 class="text-info text-center"> &nbsp &nbsp Number of Users: {% users_number %}</h4>
+<div class="d-flex flex-row align-items-center justify-content-between flex-wrap">
+    <div class="col-auto">
+        <canvas id="GenderPieChart" width="400" height="400"></canvas>
+    </div>
+    <div class="col-auto">
+        <canvas id="RolePieChart" width="400" height="400"></canvas>
+    </div>
+    <div class="col-auto">
+        <canvas id="SchoolPieChart" width="400" height="400"></canvas>
+    </div>
+</div>
+
+{% include "layouts/footer.html" %}
+</body>
+</html>

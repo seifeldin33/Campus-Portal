@@ -57,6 +57,12 @@
                             <i class="fa-solid fa-list" style="color: green"></i> View Course</a></li>
                     </ul>
                 </li>
+                {% if user.is_superuser %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "visualization" %}">
+                        <i class='fa fa-pie-chart' style='color:#ffdf00'></i> Visualization</a>
+                </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
