@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 
 # Create your models here.
@@ -79,6 +80,7 @@ class Course(models.Model):
 class StudentRegisterCourse(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    date_enrolled = models.DateTimeField(_('date enrolled'), default=timezone.now)
 
     class Meta:
         ordering = ["course"]

@@ -304,8 +304,9 @@ def view_course_info(request, course_id):
             course = Course.objects.get(id=course_id)
             context['course'] = course
             try:
-                StudentRegisterCourse.objects.get(course=course, student=student)
+                date_enrolled = StudentRegisterCourse.objects.get(course=course, student=student).date_enrolled
                 context['enrolled'] = True
+                context['date_enrolled'] = date_enrolled.date()
             except StudentRegisterCourse.DoesNotExist:
                 context['enrolled'] = False
         except Course.DoesNotExist:

@@ -33,9 +33,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Code</th>
                     <th>Name</th>
-                    <th>Credit Hour</th>
                     <th>Pre-Requisite</th>
                     <th>Type</th>
                 </tr>
@@ -43,9 +41,7 @@
                 <tbody>
                 {% for course in courses %}
                     <tr>
-                        <td>{{ course.code }}</td>
                         <td>{{ course.name }}</td>
-                        <td>{{ course.credit_hour }}</td>
                         <td>{{ course.prerequisite }}</td>
                         <td>{{ course.type }}</td>
                         <td><a href="{% url "course_info" course.id %}" class="btn btn-primary">View</a></td>
