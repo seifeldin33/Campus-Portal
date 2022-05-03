@@ -1,0 +1,32 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    <main class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card bg-dark">
+                    <h2 class="card-header text-center text-info">Course Info</h2>
+                    <div class="card-body text-info">
+                        <br>
+                        <h4>Code: {{ course.code }}</h4>
+                        <h4>Name: {{ course.name }}</h4>
+                        <h4>Credit Hour: {{ course.credit_hour }}</h4>
+                        <h4>Pre-Requisite: {{ course.prerequisite }}</h4>
+                        <h4>Type: {{ course.type }}</h4>
+                        <br>
+                    </div>
+                    {% if course %}
+                        <div class="card-footer text-center">
+                            <form method="get" action="{% url "enroll_in_course" course.id %}">
+                                {% if enrolled %}
+                                    <button type="submit" class="btn btn-primary disabled">Enrolled</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-primary">Enroll</button>
+                                {% endif %}
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

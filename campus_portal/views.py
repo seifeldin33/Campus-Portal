@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
-from campus_portal.models import User, Student, Doctor, Course
+from campus_portal.models import User, Student, Doctor, Course, StudentRegisterCourse
 from django.utils.translation import gettext_lazy as _
 import datetime
 from django.contrib.auth.hashers import make_password
@@ -293,3 +293,35 @@ def visualization(request):
     if request.user.is_superuser:
         return render(request, 'visualization.html', context)
     return redirect('home')
+
+
+@login_required
+def view_course_info(request, course_id):
+    context = {'title': 'SCS - Course info'}
+    if request.user.is_student:
+        student = Student.objects.get(user=request.user.id)
+        try:
+            course = Course.objects.get(id=course_id)
+            context['course'] = course
+            try:
+                StudentRegisterCourse.objects.get(course=course, student=student)
+                context['enrolled'] = True
+            except StudentRegisterCourse.DoesNotExist:
+                context['enrolled'] = False
+        except Course.DoesNotExist:
+            context['error'] = "This Course doesn't Exist"
+    else:
+        context['error'] = "You Should be Student First to enroll in Course"
+    return render(request, 'Course/view_info.html', context)
+
+
+@login_required
+def enroll_in_course(request, course_id):
+    if request.user.is_student:
+        course = Course.objects.get(id=course_id)
+        student = Student.objects.get(user=request.user.id)
+        try:
+            StudentRegisterCourse.objects.get(course=course, student=student)
+        except StudentRegisterCourse.DoesNotExist:
+            StudentRegisterCourse(course=course, student=student).save()
+    return redirect('course_info', course_id)

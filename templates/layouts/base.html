@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <!-- Bootstrap core CSS -->
+    {% include "required_library.html" %}
+</head>
+<body class="d-flex flex-column min-vh-100 bg-dark">
+{% include "layouts/nav.html" %}
+{% include "layouts/success.html" %}
+{% include "layouts/error.html" %}
+{% block content %}
+{% endblock %}
+{% include "layouts/footer.html" %}
+</body>
+</html>
