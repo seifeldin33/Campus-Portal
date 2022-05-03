@@ -12,3 +12,4 @@
 + Searching for Course
 + add More Visualization for The manager
 + add Feedback System
++ Internationalization
