@@ -176,5 +176,6 @@ cython_debug/
 /campus_portal/migrations/
 /campus_portal/static/campus_portal/media/
 !/campus_portal/static/campus_portal/media/avatar.png
+!/campus_portal/static/campus_portal/media/google.png
 !/campus_portal/migrations/__init__.py
 pythonanywhere.txt

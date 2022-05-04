@@ -24,6 +24,7 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('admin/', admin.site.urls),
     path('campus_portal/', include('campus_portal.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

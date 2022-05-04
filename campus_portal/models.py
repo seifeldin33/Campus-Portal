@@ -19,7 +19,6 @@ class User(AbstractUser):
                                 upload_to="")
 
     def __str__(self):
-        # return self.username.strip()
         string_name = (self.first_name + " " + self.last_name).strip()
         if string_name == "":
             string_name = self.username.strip()
@@ -46,7 +45,10 @@ class Student(models.Model):
     number_of_subjects = models.IntegerField()
 
     def __str__(self):
-        return (self.user.first_name + " " + self.user.last_name).strip()
+        string_name = (self.user.first_name + " " + self.user.last_name).strip()
+        if string_name == "":
+            string_name = self.user.username.strip()
+        return string_name
 
     class Meta:
         ordering = ["user"]
@@ -60,7 +62,10 @@ class Doctor(models.Model):
         ordering = ["user"]
 
     def __str__(self):
-        return ("Dr. " + self.user.first_name + " " + self.user.last_name).strip()
+        string_name = (self.user.first_name + " " + self.user.last_name).strip()
+        if string_name == "":
+            string_name = self.user.username.strip()
+        return "Dr. " + string_name
 
 
 class Course(models.Model):
