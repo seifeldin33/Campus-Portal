@@ -71,7 +71,8 @@ def name_course(course_id):
 
 
 @register.simple_tag
-def generate_color(palette=None, colors_number=None, desaturate=None):
+def generate_color(palette=None, colors_number=None, alpha=1, desaturate=None):
+    palette = None if palette == "" else palette
     colors = sns.color_palette(palette=palette, n_colors=colors_number, desat=desaturate)
-    colors = [(round(r * 255, 2), round(g * 255, 2), round(b * 255, 2)) for (r, g, b) in colors]
+    colors = [(round(r * 255, 2), round(g * 255, 2), round(b * 255, 2), round(alpha, 2)) for (r, g, b) in colors]
     return colors

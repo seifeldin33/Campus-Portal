@@ -179,9 +179,9 @@
             "{% name_course course_number_student.course %}",
         {% endfor %}]; //loop through queryset
         {% courses_number as courses_number %}
-        {% generate_color "bright" courses_number as generated_colors %}
+        {% generate_color "bright" courses_number 1 as generated_colors %}
         let BackgroundColor = [{% for color in generated_colors%}"rgba{{ color }}",{% endfor %}];
-        {% generate_color "dark" courses_number as generated_colors %}
+        {% generate_color "dark" courses_number 1 as generated_colors %}
         let BorderColor = [{% for color in generated_colors%}"rgba{{ color }}",{% endfor %}];
         let myChart = new Chart(ctx, {
             type: 'doughnut',
