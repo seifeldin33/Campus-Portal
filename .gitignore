@@ -179,3 +179,4 @@ cython_debug/
 !/campus_portal/static/campus_portal/media/google.png
 !/campus_portal/migrations/__init__.py
 pythonanywhere.txt
+client_secret.json
