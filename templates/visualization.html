@@ -5,6 +5,11 @@
     <title>{{ title }}</title>
     <!-- Bootstrap core CSS -->
     {% include "required_library.html" %}
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css"/>
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+        - seaborn
+    </py-env>
 </head>
 <body class="d-flex flex-column min-vh-100 bg-dark">
 {% include "layouts/nav.html" %}
@@ -170,51 +175,79 @@
     });
 </script>
 {% number_student_per_course as number_student_per_course %}
+<div id="plot" hidden></div>
+<py-script output="plot">
+import seaborn as sns
+def generate_color(palette=None, colors_number=None, alpha=1, desaturate=None):
+    palette = None if palette == "" else palette
+    colors = sns.color_palette(palette=palette, n_colors=colors_number, desat=desaturate)
+    colors = [[round(r * 255, 2), round(g * 255, 2), round(b * 255, 2), round(alpha, 2)] for (r, g, b) in colors]
+    return colors
+result = generate_color(palette="bright", colors_number=100, alpha=1)
+print(result)
+</py-script>
 <script>
     // jquery function
     $(document).ready(function () {
-        let ctx = document.getElementById('CourseDoughnutChart').getContext('2d');
-        let Data = [{% for course_number_student in number_student_per_course %}{{ course_number_student.count }}, {% endfor %}];
-        let Labels = [{% for course_number_student in number_student_per_course %}
-            "{% name_course course_number_student.course %}",
-        {% endfor %}]; //loop through queryset
-        {% courses_number as courses_number %}
-        {% generate_color "bright" courses_number 1 as generated_colors %}
-        let BackgroundColor = [{% for color in generated_colors%}"rgba{{ color }}",{% endfor %}];
-        {% generate_color "dark" courses_number 1 as generated_colors %}
-        let BorderColor = [{% for color in generated_colors%}"rgba{{ color }}",{% endfor %}];
-        let myChart = new Chart(ctx, {
-            type: 'doughnut',
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            color: 'cyan',
+        let generated_colors;
+        let changeCheck = document.querySelector('#plot'); // get the element
+        let oL = changeCheck.innerHTML; // load the default values
+        let check = setInterval(() => {
+            if (changeCheck.innerHTML !== oL) { // if the values are different from the values on load
+                generated_colors = document.getElementById('plot-1').textContent;
+                generated_colors = JSON.parse(generated_colors);
+                let BackgroundColor = [];
+                for(let [r,g,b,a] of generated_colors){
+                    BackgroundColor.push("rgba("+r+","+g+","+b+","+a+")");
+                };
+                let BorderColor = [];
+                for(let [r,g,b,a] of generated_colors){
+                    BorderColor.push("rgba("+r+","+g+","+b+","+.8+")");
+                };
+                let ctx = document.getElementById('CourseDoughnutChart').getContext('2d');
+                let Data = [{% for course_number_student in number_student_per_course %}{{ course_number_student.count }}, {% endfor %}];
+                let Labels = [{% for course_number_student in number_student_per_course %}
+                    "{% name_course course_number_student.course %}",
+                {% endfor %}]; //loop through queryset
+                {% courses_number as courses_number %}
+                console.log(BackgroundColor);
+                console.log(BorderColor);
+                let myChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    color: 'cyan',
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Doughnut Chart: Number of Students per Course',
+                                color: 'cyan',
+                                font: {
+                                    size: 16
+                                }
+                            }
                         }
                     },
-                    title: {
-                        display: true,
-                        text: 'Doughnut Chart: Number of Students per Course',
-                        color: 'cyan',
-                        font: {
-                            size: 16
-                        }
-                    }
-                }
-            },
-            data: {
-                labels: Labels,
-                datasets: [{
-                    label: '# of students per course',
-                    data: Data,
-                    backgroundColor: BackgroundColor,
-                    borderColor: BorderColor,
-                    borderWidth: 3,
-                }]
-            },
-        });
+                    data: {
+                        labels: Labels,
+                        datasets: [{
+                            label: '# of students per course',
+                            data: Data,
+                            backgroundColor: BackgroundColor,
+                            borderColor: BorderColor,
+                            borderWidth: 3,
+                        }]
+                    },
+                });
+                clearTimeout(check);	// clear the interval so that it does not repeat itself
+            }
+        }, 100); // this will check the element every second
+
     });
 </script>
 
