@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-dpc8bl^ht*u^(=%1yb^3uaczsqo+w@2#pw!@=+)+8-*s__+o2!
 # SECURITY WARNING: don't run with debug turned on in production!
 local_ip = gethostbyname(gethostname())
 DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', local_ip, 'noureldin.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', local_ip, 'collegeportal.pythonanywhere.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -127,12 +127,13 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-# SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
-# ACCOUNT_UNIQUE_EMAIL = True
-# ACCOUNT_EMAIL_REQUIRED = True
-# SOCIALACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
