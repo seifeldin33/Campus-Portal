@@ -181,3 +181,4 @@ cython_debug/
 pythonanywhere.txt
 client_secret_google.json
 client_secret_fb.json
+client_secret_github.json

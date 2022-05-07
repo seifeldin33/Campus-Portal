@@ -1,11 +1,21 @@
 {% extends 'layouts/base.html' %}
 {% block head %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css" integrity="sha512-sopmFEmRVsWt542K+yzH3FQ1KJfdosOJG+bGLs9ZJT07b/3gUxRA9ICuJg2JtoZ9WeknAUuwJ0ggnmrV1YL6kQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css"
+          integrity="sha512-sopmFEmRVsWt542K+yzH3FQ1KJfdosOJG+bGLs9ZJT07b/3gUxRA9ICuJg2JtoZ9WeknAUuwJ0ggnmrV1YL6kQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        .fa-google {
+            background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 {% endblock head %}
 {% block theme %}{% endblock theme %}
 {% block content %}
     <main class="form-signin text-center">
-            <br>
+        <br>
         <form class="row align-items-center" method="post">
             {% csrf_token %}
             <div class="col"></div>
@@ -41,12 +51,39 @@
         </form>
         <br>
         {% load socialaccount %}
-        <form action="{% provider_login_url 'google' %}" method="post">
-            {% csrf_token %}
-            <button class="btn btn-block btn-social btn-lg btn-google" type="submit">
-                <span class="fa-brands fa-google"></span> Log in with Google
-            </button>
-        </form>
-        <br>
+        <div class="col">
+            <form action="{% provider_login_url 'google' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-block btn-social btn-lg btn-reddit col-3" type="submit">
+                    <span class="fa-brands fa-google fa_with_bg" style="background-color: white"></span>
+                    Log in with Google
+                </button>
+            </form>
+            <br>
+            <form action="{% provider_login_url "github" %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-block btn-social btn-lg btn-github col-3" type="submit">
+                    <span class="fa-brands fa-github"></span>Log in with Github
+                </button>
+            </form>
+            <br>
+            {% providers_media_js %}
+            <form action="{% provider_login_url "facebook" method="oauth2" %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-block btn-social btn-lg btn-facebook col-3" type="submit">
+                    <span class="fa-brands fa-facebook-f"></span>Log in with Facebook
+                </button>
+            </form>
+            <br>
+            <form action="{% provider_login_url "github" %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-block btn-social btn-lg btn-twitter col-3" type="submit">
+                    <span class="fa-brands fa-twitter"></span>Log in with Twitter
+                </button>
+            </form>
+            <br>
+            <br>
+            <br>
+        </div>
     </main>
 {% endblock content %}
