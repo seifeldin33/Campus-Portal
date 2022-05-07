@@ -1,73 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <!-- Bootstrap core CSS -->
-    {% include "required_library.html" %}
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css"
+          integrity="sha512-sopmFEmRVsWt542K+yzH3FQ1KJfdosOJG+bGLs9ZJT07b/3gUxRA9ICuJg2JtoZ9WeknAUuwJ0ggnmrV1YL6kQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
         h3, h5 {
             margin-inline-start: 10px;
         }
+
+        .fa-google {
+            background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
-</head>
-<body class="d-flex flex-column min-vh-100">
-{% include "layouts/nav.html" %}
-<div class="col-md-8 mx-auto" style="margin: 2pc;">
-    <div class="card h-100">
-        <h3>Your Image: </h3>
-        <div class="text-center"><img class="rounded-circle" src="{{ user.picture.url }}"
-                                      alt="home" style="width: 5pc; height: 5pc"/></div>
-        <h5>Username: {{ user.get_username }}</h5>
-        <h5>First Name: {{ user.first_name }}</h5>
-        <h5>Last Name: {{ user.last_name }}</h5>
-        <h5>Email: {{ user.email }}</h5>
-        <h5>Gender: {% if user.gender == "M" %}Male{% else %}Female{% endif %}</h5>
-        <h5>Birthdate: {{ user.birthdate }}</h5>
-        <h5>Phone Number: {{ user.phone_number }}</h5>
-        <h5>Date Joined: {{ user.date_joined }}</h5>
-        {% if user.is_student %}
-            <h5>School: {{ student.school }}</h5>
-            <h5>Major: {{ student.major }}</h5>
-            <h5>Concentration: {{ student.concentration }}</h5>
-            <h5>Level: {{ student.level }}</h5>
-            <h5>Cohort: {{ student.cohort }}</h5>
-            <h5>Gpa: {{ student.gpa }}</h5>
-            <h5>Percent: {{ student.percent }}</h5>
-            <h5>Total Credit Hours: {{ student.total_credit_hours }}</h5>
-            <h5>Number of Subjects: {{ student.number_of_subjects }}</h5>
+{% endblock head %}
+{% block theme %}{% endblock theme %}
+{% block content %}
+    <main class="form-signin">
+        <div class="col" style="margin: 2pc;">
+            <div class="card h-100">
+                <h3>Your Image: </h3>
+                <div class="text-center"><img class="rounded-circle" src="{{ user.picture.url }}"
+                                              alt="home" style="width: 5pc; height: 5pc"/></div>
+                <h5>Username: {{ user.get_username }}</h5>
+                <h5>First Name: {{ user.first_name }}</h5>
+                <h5>Last Name: {{ user.last_name }}</h5>
+                <h5>Email: {{ user.email }}</h5>
+                <h5>Gender: {% if user.gender == "M" %}Male{% else %}Female{% endif %}</h5>
+                <h5>Birthdate: {{ user.birthdate }}</h5>
+                <h5>Phone Number: {{ user.phone_number }}</h5>
+                <h5>Date Joined: {{ user.date_joined }}</h5>
+                {% if user.is_student %}
+                    <h5>School: {{ student.school }}</h5>
+                    <h5>Major: {{ student.major }}</h5>
+                    <h5>Concentration: {{ student.concentration }}</h5>
+                    <h5>Level: {{ student.level }}</h5>
+                    <h5>Cohort: {{ student.cohort }}</h5>
+                    <h5>Gpa: {{ student.gpa }}</h5>
+                    <h5>Percent: {{ student.percent }}</h5>
+                    <h5>Total Credit Hours: {{ student.total_credit_hours }}</h5>
+                    <h5>Number of Subjects: {{ student.number_of_subjects }}</h5>
+                {% endif %}
+                {% if user.is_doctor %}
+                    <h5>Degree: {{ doctor.degree }}</h5>
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center">
+            <a class="btn btn-primary" href="{% url "edit_user_info" user.get_username %}">
+                <i class="fa-solid fa-user-pen"></i> Edit</a>
+        </div>
+        {% if not user.is_student %}
+            <br>
+            <div class="text-center">
+                <a class="btn btn-primary" href="{% url "be_student" user.get_username %}">
+                    <i class="fa-solid fa-user-graduate"></i> Be Student</a>
+            </div>
         {% endif %}
-        {% if user.is_doctor %}
-            <h5>Degree: {{ doctor.degree }}</h5>
+        {% if not user.is_doctor %}
+            <br>
+            <div class="text-center">
+                <a class="btn btn-primary" href="{% url "be_doctor" user.get_username %}">
+                    <i class="fa-solid fa-user-tie"></i> Be Doctor</a>
+            </div>
         {% endif %}
-    </div>
-</div>
-<div class="text-center">
-    <a class="btn btn-primary" href="{% url "edit_user_info" user.get_username %}">
-        <i class="fa-solid fa-user-pen"></i> Edit</a>
-</div>
-{% if not user.is_student %}
-    <br>
-    <div class="text-center">
-        <a class="btn btn-primary" href="{% url "be_student" user.get_username %}">
-        <i class="fa-solid fa-user-graduate"></i> Be Student</a>
-    </div>
-{% endif %}
-{% if not user.is_doctor %}
-    <br>
-    <div class="text-center">
-        <a class="btn btn-primary" href="{% url "be_doctor" user.get_username %}">
-        <i class="fa-solid fa-user-tie"></i> Be Doctor</a>
-    </div>
-{% endif %}
-{% if not user.is_superuser and not user.is_staff %}
-    <br>
-    <div class="text-center">
-        <a class="btn btn-primary" href="{% url "be_admin" user.get_username %}">
-        <i class="fa-solid fa-user-secret"></i> Be Admin</a>
-    </div>
-{% endif %}
-<br>
-{% include "layouts/footer.html" %}
-</body>
-</html>
+        {#        {% if not user.is_superuser and not user.is_staff %}#}
+        {#            <br>#}
+        {#            <div class="text-center">#}
+        {#                <a class="btn btn-primary" href="{% url "be_admin" user.get_username %}">#}
+        {#                    <i class="fa-solid fa-user-secret"></i> Be Admin</a>#}
+        {#            </div>#}
+        {#        {% endif %}#}
+        <br>
+        {% load socialaccount %}
+        {% get_social_accounts user as accounts %}
+        <div class="row text-center">
+            <div class="col">
+                {% if accounts.google %}
+                    <form action="{% provider_login_url "google" process="connect" %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-block btn-social btn-lg btn-reddit col-4 disabled" type="submit">
+                            <span class="fa-brands fa-google fa_with_bg"></span>
+                            You are already Connected to Google account
+                        </button>
+                    </form>
+                {% else %}
+                    <form action="{% provider_login_url "google" process="connect" %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-block btn-social btn-lg btn-reddit col-4" type="submit">
+                            <span class="fa-brands fa-google fa_with_bg"></span>
+                            Connect a Google account
+                        </button>
+                    </form>
+                {% endif %}
+                <br>
+                {% if accounts.github %}
+                    <form action="{% provider_login_url "github" process="connect" %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-block btn-social btn-lg btn-github col-4 disabled" type="submit">
+                            <span class="fa-brands fa-github"></span>
+                            You are already Connected to GitHub account
+                        </button>
+                    </form>
+                {% else %}
+                    <form action="{% provider_login_url "github" process="connect" %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-block btn-social btn-lg btn-github col-4" type="submit">
+                            <span class="fa-brands fa-github"></span>Connect a GitHub account
+                        </button>
+                    </form>
+                {% endif %}
+                <br>
+                {% if accounts.facebook %}
+                    <form action="{% provider_login_url "facebook" method="oauth2" process="connect" %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-block btn-social btn-lg btn-facebook col-4 disabled" type="submit">
+                            <span class="fa-brands fa-facebook-f"></span>
+                            You are already Connected to Facebook account
+                        </button>
+                    </form>
+                {% else %}
+                    <form action="{% provider_login_url "facebook" method="oauth2" process="connect" %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-block btn-social btn-lg btn-facebook col-4" type="submit">
+                            <span class="fa-brands fa-facebook-f"></span>Connect a Facebook account
+                        </button>
+                    </form>
+                {% endif %}
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
