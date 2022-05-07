@@ -6,14 +6,14 @@
     <!-- Bootstrap core CSS -->
     {% include "required_library.html" %}
     {% block head %}
-    {% endblock %}
+    {% endblock head %}
 </head>
-<body class="d-flex flex-column min-vh-100 {% block theme %}bg-dark{% endblock %}">
+<body class="d-flex flex-column min-vh-100 {% block theme %}bg-dark{% endblock theme %}">
 {% include "layouts/nav.html" %}
 {% include "layouts/success.html" %}
 {% include "layouts/error.html" %}
 {% block content %}
-{% endblock %}
+{% endblock content %}
 {% include "layouts/footer.html" %}
 </body>
 </html>
