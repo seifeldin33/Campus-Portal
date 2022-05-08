@@ -113,6 +113,23 @@
                     </form>
                 {% endif %}
                 <br>
+                {% if accounts.twitter %}
+                    <form action="{% provider_login_url "twitter" process="connect" %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-block btn-social btn-lg btn-twitter col-4 disabled" type="submit">
+                            <span class="fa-brands fa-twitter"></span>
+                            You are already Connected to Twitter account
+                        </button>
+                    </form>
+                {% else %}
+                    <form action="{% provider_login_url "twitter" process="connect" %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-block btn-social btn-lg btn-twitter col-4" type="submit">
+                            <span class="fa-brands fa-twitter"></span>Connect a Twitter account
+                        </button>
+                    </form>
+                {% endif %}
+                <br>
                 {% if accounts.facebook %}
                     <form action="{% provider_login_url "facebook" method="oauth2" process="connect" %}" method="post">
                         {% csrf_token %}

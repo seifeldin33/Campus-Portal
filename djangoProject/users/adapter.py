@@ -38,3 +38,8 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         # if it does, connect this new social login to the existing user
         user = email_address.user
         sociallogin.connect(request, user)
+
+    def authentication_error(self, request, provider_id, error, exception, extra_context):
+        extra_data = {'provider_id': provider_id, 'error': error.__str__(), 'exception': exception.__str__(),
+                      'extra_context': extra_context}
+        print('SocialAccount authentication error!', 'error', request, extra_data)

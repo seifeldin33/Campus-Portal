@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.twitter',
 
 ]
 SOCIALACCOUNT_PROVIDERS = {
@@ -77,7 +78,10 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'github': {
         'SCOPE': ['user:email'],
-    }
+    },
+    'twitter': {
+        'SCOPE': ['email'],
+    },
 }
 SITE_ID = 1
 

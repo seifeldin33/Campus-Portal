@@ -67,19 +67,19 @@
                 </button>
             </form>
             <br>
+            <form action="{% provider_login_url "twitter" %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-block btn-social btn-lg btn-twitter col-3" type="submit">
+                    <span class="fa-brands fa-twitter"></span>Log in with Twitter
+                </button>
+            </form>
+            <br>
             <form action="{% provider_login_url "facebook" method="oauth2" %}" method="post">
                 {% csrf_token %}
                 <button class="btn btn-block btn-social btn-lg btn-facebook col-3" type="submit">
                     <span class="fa-brands fa-facebook-f"></span>Log in with Facebook
                 </button>
             </form>
-            {% comment %}            <br>
-            <form action="{% provider_login_url "github" %}" method="post">
-                {% csrf_token %}
-                <button class="btn btn-block btn-social btn-lg btn-twitter col-3" type="submit">
-                    <span class="fa-brands fa-twitter"></span>Log in with Twitter
-                </button>
-            </form>{% endcomment %}
             <br>
             <br>
             <br>
