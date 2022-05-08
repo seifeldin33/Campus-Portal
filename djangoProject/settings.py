@@ -67,8 +67,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'middle_name',
             'name',
             'name_format',
+            'short_name',
+            'email',
             'picture',
-            'short_name'
         ],
         'EXCHANGE_TOKEN': True,
         'VERIFIED_EMAIL': False,
