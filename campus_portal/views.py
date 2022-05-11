@@ -53,7 +53,7 @@ def login(request):
                 auth.login(request, u)
                 return redirect('home')
             context['error'] = "Username/Email or password is incorrect!"
-    return render(request, 'Login.html', context)
+    return render(request, 'User/Login.html', context)
 
 
 def create_new_user(request, is_student=False, is_doctor=False):
@@ -144,7 +144,7 @@ def view_user_info(request, user_name):
         if request.user.is_doctor:
             doctor = Doctor.objects.get(user=request.user.id)
             context["doctor"] = {'degree': doctor.degree}
-        return render(request, 'view_info.html', context)
+        return render(request, 'User/view_info.html', context)
     else:
         context['error'] = "You Can't Show another user info"
         return render(request, 'index.html', context)
@@ -207,7 +207,7 @@ def edit_user_info(request, user_name):
                 try:
                     User.objects.get(username=request.POST['username'])
                     context['error'] = 'Username is already taken!'
-                    return render(request, 'edit_info.html', context)
+                    return render(request, 'User/edit_info.html', context)
                 except User.DoesNotExist:
                     user.username = request.POST["username"]
 
@@ -216,7 +216,7 @@ def edit_user_info(request, user_name):
                 try:
                     User.objects.get(email=request.POST['email'])
                     context['error'] = 'Email is already taken!'
-                    return render(request, 'edit_info.html', context)
+                    return render(request, 'User/edit_info.html', context)
                 except User.DoesNotExist:
                     user.email = request.POST["email"]
 
@@ -246,7 +246,7 @@ def edit_user_info(request, user_name):
 
             context["success"] = "your Info has been updated successfully"
 
-    return render(request, 'edit_info.html', context)
+    return render(request, 'User/edit_info.html', context)
 
 
 @login_required
