@@ -1,5 +1,6 @@
 ## Next Steps Ideas
 
++ Our Profiles
 + Unenroll in courses
 + validation for all input fields
 + enhance the UI of the project
