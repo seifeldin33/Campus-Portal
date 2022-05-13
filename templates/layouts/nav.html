@@ -17,10 +17,10 @@
     }
 </style>
 {% load custom_tags %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Fourth navbar example">
+<nav class="navbar navbar-expand-lg navbar-dark bg-black" aria-label="Fourth navbar example">
     <div class="container-fluid">
         <a class="navbar-brand active" href="{% url "home" %}">
-            <i class='fa-solid fa-building-columns' style='color:#ffdf00'></i> SCS</a>
+            <i class='fa-solid fa-building-columns' style='color:#30fcfa'></i> SCS</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"
                 aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,21 +30,21 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link {% active request.path "home" %}" aria-current="page" href="{% url "home" %}">
-                        <i class='fas fa-home' style='color:#ffdf00'></i> Home</a>
+                        <i class='fas fa-home' style='color:#30fcfa'></i> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class='fa-solid fa-circle-info' style='color:#ffdf00'></i> About</a>
+                    <a class="nav-link" href="#"><i class='fa-solid fa-circle-info' style='color:#30fcfa'></i> About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class='fa fa-comment' style='color:#ffdf00'></i> Contacts</a>
+                    <a class="nav-link" href="#"><i class='fa fa-comment' style='color:#30fcfa'></i> Contacts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class='fas fa-user-graduate' style='color:#ffdf00'></i> Colleges</a>
+                    <a class="nav-link" href="#"><i class='fas fa-user-graduate' style='color:#30fcfa'></i> Colleges</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% active_in request.path "course" %}"
                        href="#" id="dropdown" data-bs-toggle="dropdown">
-                        <i class='fas fa-book-open' style='color:#ffdf00'></i> Courses
+                        <i class='fas fa-book-open' style='color:#30fcfa'></i> Courses
                     </a>
                     <ul class="dropdown-menu">
                         {% if user.is_doctor %}
@@ -60,7 +60,7 @@
                 {% if user.is_superuser %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url "visualization" %}">
-                        <i class='fa fa-pie-chart' style='color:#ffdf00'></i> Visualization</a>
+                        <i class='fa fa-pie-chart' style='color:#30fcfa'></i> Visualization</a>
                 </li>
                 {% endif %}
             </ul>
@@ -92,7 +92,7 @@
                 {% else %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-bs-toggle="dropdown"><i
-                                class='fa fa-user-plus' style='color:#ffdf00'></i> Sign Up</a>
+                                class='fa fa-user-plus' style='color:#30fcfa'></i> Sign Up</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item {% active request.path "student_signup" %}"
                                    href="{% url "student_signup" %}">As a Student</a></li>
@@ -102,7 +102,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-bs-toggle="dropdown">
-                            <i class='fa fa-sign-in' style='color:#ffdf00'></i> Login</a>
+                            <i class='fa fa-sign-in' style='color:#30fcfa'></i> Login</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item {% active request.path "Login" %}" href="{% url "Login" %}">
                                 As a User</a></li>

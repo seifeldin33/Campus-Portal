@@ -177,6 +177,11 @@ cython_debug/
 /campus_portal/static/campus_portal/media/
 !/campus_portal/static/campus_portal/media/avatar.png
 !/campus_portal/static/campus_portal/media/google.png
+!/campus_portal/static/campus_portal/media/hand.jpg
+!/campus_portal/static/campus_portal/media/icon.jpg
+!/campus_portal/static/campus_portal/media/meta.png
+!/campus_portal/static/campus_portal/media/Metaverse.jpg
+!/campus_portal/static/campus_portal/media/wearing.jpeg
 !/campus_portal/migrations/__init__.py
 pythonanywhere.txt
 client_secret_google.json

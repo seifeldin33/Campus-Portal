@@ -8,7 +8,8 @@
     {% block head %}
     {% endblock head %}
 </head>
-<body class="d-flex flex-column min-vh-100 {% block theme %}bg-dark{% endblock theme %}">
+<body class="d-flex flex-column min-vh-100 {% block theme %}bg-dark{% endblock theme %}"
+      style="{% block body_style %}{% endblock body_style %}">
 {% include "layouts/nav.html" %}
 {% include "layouts/success.html" %}
 {% include "layouts/error.html" %}
