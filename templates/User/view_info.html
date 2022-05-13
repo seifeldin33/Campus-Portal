@@ -49,7 +49,8 @@
             </div>
         </div>
         <div class="text-center">
-            <a class="btn btn-primary" href="{% url "edit_user_info" user.get_username %}">
+            <a class="btn btn-primary" href="{% url "edit_user_info" user.get_username %}"
+               style="background-color: blueviolet">
                 <i class="fa-solid fa-user-pen"></i> Edit</a>
         </div>
         {% if not user.is_student %}
