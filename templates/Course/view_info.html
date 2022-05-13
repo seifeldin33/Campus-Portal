@@ -22,12 +22,43 @@
                                 {% if enrolled %}
                                     <h5 style="color: white">Enrolled on: {{ date_enrolled }}</h5>
                                     <button type="submit" class="btn btn-primary disabled"
-                                            style="background-color: blueviolet">Enrolled</button>
+                                            style="background-color: blueviolet">Enrolled
+                                    </button>
+                                    <br>
+                                    <br>
+                                    <a class="btn btn-primary" style="background-color: blueviolet"
+                                       href="{% url "view_course_contents" course.id %}">
+                                        View Contents
+                                    </a>
                                 {% else %}
-                                    <button type="submit" class="btn btn-primary" style="background-color: blueviolet">
-                                        Enroll</button>
+                                    <button type="submit"
+                                            class="btn btn-primary {% if not user.is_student %}disabled{% endif %}"
+                                            style="background-color: blueviolet">
+                                        Enroll
+                                    </button>
+                                    {% if not user.is_student %}
+                                        <h6 class="text-warning">
+                                            <br>
+                                            You Should be Student to Enroll or to view Content
+                                        </h6>
+                                    {% endif %}
                                 {% endif %}
                             </form>
+                            {% if user.is_doctor %}
+                                <br>
+                                {% if not enrolled %}
+                                    <a class="btn btn-primary" style="background-color: blueviolet"
+                                       href="{% url "view_course_contents" course.id %}">
+                                        View Contents
+                                    </a>
+                                    <br>
+                                    <br>
+                                {% endif %}
+                                <a class="btn btn-primary" style="background-color: blueviolet"
+                                   href="{% url "add_course_contents" course.id %}">
+                                    Add Contents
+                                </a>
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>

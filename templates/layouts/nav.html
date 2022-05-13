@@ -59,7 +59,7 @@
                 </li>
                 {% if user.is_superuser %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "visualization" %}">
+                    <a class="nav-link {% active request.path "visualization" %}" href="{% url "visualization" %}">
                         <i class='fa fa-pie-chart' style='color:#30fcfa'></i> Visualization</a>
                 </li>
                 {% endif %}

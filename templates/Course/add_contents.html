@@ -1,0 +1,33 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <main class="form-signin text-center">
+        <br>
+        <form class="row align-items-center" method="post">
+            {% csrf_token %}
+            <div class="col-md"></div>
+            <div class="col card">
+                <br>
+                <div class="card-title ">
+                    <h1 class="mb-3">Please Add Course Content</h1>
+                </div>
+                <div class="card-body">
+                    <h2>Course: {{ course }}</h2>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="title" name="title" required>
+                        <label for="title">Title</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="Content" name="Content" rows="4" required></textarea>
+                        <label for="Content">Content</label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit" style="background-color: blueviolet">
+                        Add
+                    </button>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <div class="col"></div>
+        </form>
+    </main>
+{% endblock content %}

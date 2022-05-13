@@ -56,14 +56,16 @@
         {% if not user.is_student %}
             <br>
             <div class="text-center">
-                <a class="btn btn-primary" href="{% url "be_student" user.get_username %}">
+                <a class="btn btn-primary" href="{% url "be_student" user.get_username %}"
+                   style="background-color: blueviolet">
                     <i class="fa-solid fa-user-graduate"></i> Be Student</a>
             </div>
         {% endif %}
         {% if not user.is_doctor %}
             <br>
             <div class="text-center">
-                <a class="btn btn-primary" href="{% url "be_doctor" user.get_username %}">
+                <a class="btn btn-primary" href="{% url "be_doctor" user.get_username %}"
+                   style="background-color: blueviolet">
                     <i class="fa-solid fa-user-tie"></i> Be Doctor</a>
             </div>
         {% endif %}

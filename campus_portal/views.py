@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
-from campus_portal.models import User, Student, Doctor, Course, StudentRegisterCourse
+from campus_portal.models import User, Student, Doctor, Course, StudentRegisterCourse, CourseContent
 from django.utils.translation import gettext_lazy as _
 import datetime
 from django.contrib.auth.hashers import make_password
@@ -19,10 +19,7 @@ def anonymous_required(function=None, redirect_url=None):
     if not redirect_url:
         redirect_url = settings.LOGIN_REDIRECT_URL
 
-    actual_decorator = user_passes_test(
-        lambda u: u.is_anonymous,
-        login_url=redirect_url
-    )
+    actual_decorator = user_passes_test(lambda u: u.is_anonymous, login_url=redirect_url)
 
     if function:
         return actual_decorator(function)
@@ -124,8 +121,7 @@ def doctor_signup(request):
                 context['error'] = 'You must agree to the terms'
                 return render(request, 'Doctor/signup.html', context)
         else:
-            context['error'] = 'Password does not match!'
-        # new_user.
+            context['error'] = 'Password does not match!'  # new_user.
     return render(request, 'Doctor/signup.html', context)
 
 
@@ -139,8 +135,7 @@ def view_user_info(request, user_name):
                                   'concentration': student.concentration, 'level': student.level,
                                   'cohort': student.cohort, 'gpa': student.gpa, 'percent': student.percent,
                                   'total_credit_hours': student.total_credit_hours,
-                                  'number_of_subjects': student.number_of_subjects,
-                                  }
+                                  'number_of_subjects': student.number_of_subjects, }
         if request.user.is_doctor:
             doctor = Doctor.objects.get(user=request.user.id)
             context["doctor"] = {'degree': doctor.degree}
@@ -186,8 +181,7 @@ def edit_user_info(request, user_name):
             if request.user.is_student:
                 student = Student.objects.get(user=request.user.id)
                 context["student"] = {'school': student.school, 'major': student.major,
-                                      'concentration': student.concentration,
-                                      }
+                                      'concentration': student.concentration, }
             if request.user.is_doctor:
                 doctor = Doctor.objects.get(user=request.user.id)
                 context["doctor"] = {'degree': doctor.degree}
@@ -255,10 +249,9 @@ def be_student(request, user_name):
         user = User.objects.get(id=request.user.id)
         user.is_student = True
         user.save()
-        new_student = Student(user=user, school='', major='',
-                              concentration='', level=1,
-                              cohort=datetime.date.today().year, gpa=0.0, percent=0.0,
-                              total_credit_hours=0, number_of_subjects=0)
+        new_student = Student(user=user, school='', major='', concentration='', level=1,
+                              cohort=datetime.date.today().year, gpa=0.0, percent=0.0, total_credit_hours=0,
+                              number_of_subjects=0)
         new_student.save()
         return redirect('user_info', user.get_username())
     return redirect('home')
@@ -298,19 +291,20 @@ def visualization(request):
 @login_required
 def view_course_info(request, course_id):
     context = {'title': 'SCS - Course info'}
+    try:
+        course = Course.objects.get(id=course_id)
+        context['course'] = course
+    except Course.DoesNotExist:
+        context['error'] = "This Course doesn't Exist"
+        return render(request, 'Course/view_info.html', context)
     if request.user.is_student:
         student = Student.objects.get(user=request.user.id)
         try:
-            course = Course.objects.get(id=course_id)
-            context['course'] = course
-            try:
-                date_enrolled = StudentRegisterCourse.objects.get(course=course, student=student).date_enrolled
-                context['enrolled'] = True
-                context['date_enrolled'] = date_enrolled.date()
-            except StudentRegisterCourse.DoesNotExist:
-                context['enrolled'] = False
-        except Course.DoesNotExist:
-            context['error'] = "This Course doesn't Exist"
+            date_enrolled = StudentRegisterCourse.objects.get(course=course, student=student).date_enrolled
+            context['enrolled'] = True
+            context['date_enrolled'] = date_enrolled.date()
+        except StudentRegisterCourse.DoesNotExist:
+            context['enrolled'] = False
     else:
         context['error'] = "You Should be Student First to enroll in Course"
     return render(request, 'Course/view_info.html', context)
@@ -326,3 +320,42 @@ def enroll_in_course(request, course_id):
         except StudentRegisterCourse.DoesNotExist:
             StudentRegisterCourse(course=course, student=student).save()
     return redirect('course_info', course_id)
+
+
+@login_required
+def view_course_contents(request, course_id):
+    context = {'title': 'SCS - Course Content'}
+    if request.user.is_doctor:
+        course = Course.objects.get(id=course_id)
+        content = CourseContent.objects.all().filter(course=course)
+        context['contents'] = content
+        return render(request, 'Course/view_contents.html', context)
+
+    if request.user.is_student:
+        course = Course.objects.get(id=course_id)
+        student = Student.objects.get(user=request.user.id)
+        try:
+            StudentRegisterCourse.objects.get(course=course, student=student)
+        except StudentRegisterCourse.DoesNotExist:
+            return redirect('course_info', course_id)
+        content = CourseContent.objects.all().filter(course=course)
+        context['contents'] = content
+        return render(request, 'Course/view_contents.html', context)
+    return redirect('course_info', course_id)
+
+
+@login_required
+def add_course_contents(request, course_id):
+    context = {'title': 'SCS - Course Content'}
+    try:
+        course = Course.objects.get(id=course_id)
+        context['course'] = course
+    except Course.DoesNotExist:
+        context['error'] = "This Course doesn't Exist"
+        return render(request, 'Course/add_contents.html', context)
+    if request.method == "POST":
+        doctor = Doctor.objects.get(user=request.user.id)
+        CourseContent(course=course, title=request.POST["title"], content=request.POST["Content"],
+                      uploaded_by=doctor).save()
+        context['success'] = "Content Added successfully"
+    return render(request, 'Course/add_contents.html', context)

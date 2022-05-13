@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    {% if contents %}
+        {% for Content in contents %}
+            <br>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col">
+                    <div class="card bg-dark">
+                        <div class="card-header">
+                            <h4 style="color: white">{{ Content.title }}</h4>
+                            <h6 style="color: white" class="text-capitalize">By: {{ Content.uploaded_by }}</h6>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: white">{{ Content.content }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="d-flex justify-content-center align-items-center" style="height:400px;">
+            <div class="container">
+                <h1 class="text-center" style="color: white">
+                    There's No Content yet
+                </h1>
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}

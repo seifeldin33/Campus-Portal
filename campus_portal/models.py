@@ -15,8 +15,7 @@ class User(AbstractUser):
     TEMP_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
     gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=MALE)
     phone_number = models.CharField(max_length=15, default="01000000000")
-    picture = models.ImageField(default="avatar.png", null=True,
-                                upload_to="")
+    picture = models.ImageField(default="avatar.png", null=True, upload_to="")
 
     def __str__(self):
         string_name = (self.first_name + " " + self.last_name).strip()
@@ -87,6 +86,26 @@ class StudentRegisterCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     date_enrolled = models.DateTimeField(_('date enrolled'), default=timezone.now)
 
+    def __str__(self):
+        string_name = (self.student.user.first_name + " " + self.student.user.last_name).strip()
+        if string_name == "":
+            string_name = self.student.user.username.strip()
+        return string_name + " registered " + self.course.name
+
     class Meta:
         ordering = ["course"]
         unique_together = ('course', 'student')
+
+
+class CourseContent(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    content = models.CharField(max_length=1000)
+    uploaded_by = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.course.name + " - " + self.title
+
+    class Meta:
+        ordering = ["course"]
+        unique_together = ('title', 'content')
