@@ -50,6 +50,8 @@ python manage.py runserver 0.0.0.0:8000
 
 # if You want to visit a live Version, GO to this [Link](https://collegeportal.pythonanywhere.com/) 
 
+### Special Thanks to @Yous10r for this beautiful design
+
 # our Model
 
 ![model_1](./images/models-1.png)
