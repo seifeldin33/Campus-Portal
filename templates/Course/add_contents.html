@@ -2,16 +2,16 @@
 {% block content %}
     <main class="form-signin text-center">
         <br>
-        <form class="row align-items-center" method="post">
+        <form class="row align-items-center" method="post" style="font-family: 'Molin', sans-serif">
             {% csrf_token %}
             <div class="col-md"></div>
             <div class="col card">
                 <br>
                 <div class="card-title ">
-                    <h1 class="mb-3">Please Add Course Content</h1>
+                    <h3 class="mb-3">Please Add Course Content</h3>
                 </div>
                 <div class="card-body">
-                    <h2>Course: {{ course }}</h2>
+                    <h4>Course: {{ course }}</h4>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="title" name="title" required>
                         <label for="title">Title</label>
